@@ -6,8 +6,19 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		0222F2C0305E45EC00C69BBA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0222F29B305E45EA00C69BBA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0222F2A2305E45EA00C69BBA;
+			remoteInfo = CodexBar;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0222F2A3305E45EA00C69BBA /* CodexBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodexBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0222F2C2305E45EC00C69BBA /* CodexBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodexBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,20 @@
 			path = CodexBar;
 			sourceTree = "<group>";
 		};
+		0222F2C3305E45EC00C69BBA /* CodexBarTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CodexBarTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		0222F2A0305E45EA00C69BBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		0222F2C4305E45EC00C69BBA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
@@ -31,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				0222F2A5305E45EA00C69BBA /* CodexBar */,
+				0222F2C3305E45EC00C69BBA /* CodexBarTests */,
 				0222F2A4305E45EA00C69BBA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				0222F2A3305E45EA00C69BBA /* CodexBar.app */,
+				0222F2C2305E45EC00C69BBA /* CodexBarTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,6 +87,27 @@
 			productReference = 0222F2A3305E45EA00C69BBA /* CodexBar.app */;
 			productType = "com.apple.product-type.application";
 		};
+		0222F2C5305E45EC00C69BBA /* CodexBarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0222F2CE305E45EC00C69BBA /* Build configuration list for PBXNativeTarget "CodexBarTests" */;
+			buildPhases = (
+				0222F2C6305E45EC00C69BBA /* Sources */,
+				0222F2C4305E45EC00C69BBA /* Frameworks */,
+				0222F2C7305E45EC00C69BBA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0222F2C1305E45EC00C69BBA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0222F2C3305E45EC00C69BBA /* CodexBarTests */,
+			);
+			name = CodexBarTests;
+			productName = CodexBarTests;
+			productReference = 0222F2C2305E45EC00C69BBA /* CodexBarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -77,6 +121,10 @@
 					0222F2A2305E45EA00C69BBA = {
 						CreatedOnToolsVersion = 27.0;
 					};
+					0222F2C5305E45EC00C69BBA = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 0222F2A2305E45EA00C69BBA;
+					};
 				};
 			};
 			buildConfigurationList = 0222F29E305E45EA00C69BBA /* Build configuration list for PBXProject "CodexBar" */;
@@ -84,6 +132,11 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
+				ja,
+				ko,
+				"zh-Hans",
+				"zh-Hant",
 				Base,
 			);
 			mainGroup = 0222F29A305E45EA00C69BBA;
@@ -94,12 +147,18 @@
 			projectRoot = "";
 			targets = (
 				0222F2A2305E45EA00C69BBA /* CodexBar */,
+				0222F2C5305E45EC00C69BBA /* CodexBarTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0222F2A1305E45EA00C69BBA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		0222F2C7305E45EC00C69BBA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -112,7 +171,20 @@
 			files = (
 			);
 		};
+		0222F2C6305E45EC00C69BBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0222F2C1305E45EC00C69BBA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0222F2A2305E45EA00C69BBA /* CodexBar */;
+			targetProxy = 0222F2C0305E45EC00C69BBA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0222F2AC305E45EC00C69BBA /* Debug configuration for PBXProject "CodexBar" */ = {
@@ -244,23 +316,24 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P57SZ9Z7G2;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "--.CodexBar";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kexin.CodexBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -276,18 +349,19 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P57SZ9Z7G2;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "--.CodexBar";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kexin.CodexBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -296,6 +370,46 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		0222F2CF305E45EC00C69BBA /* Debug configuration for PBXNativeTarget "CodexBarTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P57SZ9Z7G2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kexin.CodexBarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CodexBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CodexBar";
+			};
+			name = Debug;
+		};
+		0222F2D0305E45EC00C69BBA /* Release configuration for PBXNativeTarget "CodexBarTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P57SZ9Z7G2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kexin.CodexBarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CodexBar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CodexBar";
 			};
 			name = Release;
 		};
@@ -315,6 +429,14 @@
 			buildConfigurations = (
 				0222F2AF305E45EC00C69BBA /* Debug configuration for PBXNativeTarget "CodexBar" */,
 				0222F2B0305E45EC00C69BBA /* Release configuration for PBXNativeTarget "CodexBar" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		0222F2CE305E45EC00C69BBA /* Build configuration list for PBXNativeTarget "CodexBarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0222F2CF305E45EC00C69BBA /* Debug configuration for PBXNativeTarget "CodexBarTests" */,
+				0222F2D0305E45EC00C69BBA /* Release configuration for PBXNativeTarget "CodexBarTests" */,
 			);
 			defaultConfigurationName = Release;
 		};

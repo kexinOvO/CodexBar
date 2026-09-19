@@ -1,0 +1,223 @@
+//
+//  CodexModels.swift
+//  CodexBar
+//
+//  Parsed data models persisted to local cache. Contains no credentials.
+//
+
+import Foundation
+
+// MARK: - Status
+
+/// Parsed result of the `/status` slash command in Codex CLI.
+struct CodexStatus: Codable, Equatable {
+    var model: String?
+    var reasoningEffort: String?
+    var accountEmail: String?
+    var plan: String?
+    var fiveHourRemainingPercent: Double?
+    var fiveHourResetAt: Date?
+    var fiveHourResetText: String?
+    var weeklyRemainingPercent: Double?
+    var weeklyResetAt: Date?
+    var weeklyResetText: String?
+    var fetchedAt: Date
+
+    /// True when both quota percentages failed to parse.
+    var isUnparsed: Bool {
+        fiveHourRemainingPercent == nil && weeklyRemainingPercent == nil
+    }
+}
+
+// MARK: - Usage
+
+/// One day of token activity. If the CLI only provides heatmap intensity
+/// (no exact token count), `tokenCount` is nil and `intensity` carries the
+/// bucketed level 0...4 (0 = no activity).
+struct DailyActivity: Codable, Equatable, Identifiable {
+    var date: Date
+    var tokenCount: Int64?
+    var intensity: Int
+    var id: Date { date }
+}
+
+/// Parsed result of the `/usage daily` slash command.
+struct CodexUsage: Codable, Equatable {
+    var lifetimeTokens: Int64?
+    var peakTokens: Int64?
+    var streakDays: Int?
+    var longestTaskSeconds: Int?
+    var dailyActivity: [DailyActivity]
+    var fetchedAt: Date
+
+    /// True when nothing useful could be extracted.
+    var isUnparsed: Bool {
+        lifetimeTokens == nil && peakTokens == nil && streakDays == nil
+            && longestTaskSeconds == nil && dailyActivity.isEmpty
+    }
+}
+
+// MARK: - Settings
+
+/// Which information the menu bar item displays.
+enum MenuBarDisplayMode: String, Codable, CaseIterable, Identifiable {
+    case iconOnly
+    case weeklyPercent
+    case fiveHourAndWeekly
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .iconOnly: return String(localized: "Icon only")
+        case .weeklyPercent: return String(localized: "Weekly remaining %")
+        case .fiveHourAndWeekly: return String(localized: "5h + Weekly %")
+        }
+    }
+}
+
+enum AppearanceMode: String, Codable, CaseIterable, Identifiable {
+    case system
+    case light
+    case dark
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .system: return String(localized: "System")
+        case .light: return String(localized: "Light")
+        case .dark: return String(localized: "Dark")
+        }
+    }
+}
+
+/// User settings, persisted as settings.json. Contains no secrets.
+struct AppSettings: Codable, Equatable {
+    var statusRefreshInterval: TimeInterval = 5 * 60
+    var usageRefreshInterval: TimeInterval = 30 * 60
+    var menuBarDisplayMode: MenuBarDisplayMode = .iconOnly
+    var appearance: AppearanceMode = .system
+
+    /// How many months of history the token activity heatmap covers.
+    /// Clamped to `heatmapMonthRange` on read so hand-edited settings.json
+    /// can't push the grid outside the supported window.
+    var heatmapMonths: Int = AppSettings.defaultHeatmapMonths
+
+    /// Slider bounds for `heatmapMonths`.
+    static let heatmapMonthRange: ClosedRange<Double> = 6...10
+    static let defaultHeatmapMonths = 6
+
+    /// `heatmapMonths` clamped into the supported range.
+    var heatmapMonthsClamped: Int {
+        let lower = Int(Self.heatmapMonthRange.lowerBound)
+        let upper = Int(Self.heatmapMonthRange.upperBound)
+        return min(max(heatmapMonths, lower), upper)
+    }
+
+    var notifyWeeklyBelow10: Bool = true
+    var notifyWeeklyBelow5: Bool = true
+    var notifyFiveHourBelow10: Bool = true
+
+    var codexPathOverride: String?
+
+    var launchAtLogin: Bool = false
+
+    /// Hard cap for a single CLI session, seconds.
+    var cliTimeout: TimeInterval = 240
+
+    static let `default` = AppSettings()
+}
+
+extension AppSettings {
+    /// Key names for the tolerant decoder below. Kept separate from the
+    /// synthesized `CodingKeys` (used for writing) so this extension stays
+    /// valid without touching the memberwise initializer.
+    private enum Keys: String, CodingKey {
+        case statusRefreshInterval
+        case usageRefreshInterval
+        case menuBarDisplayMode
+        case appearance
+        case heatmapMonths
+        case notifyWeeklyBelow10
+        case notifyWeeklyBelow5
+        case notifyFiveHourBelow10
+        case codexPathOverride
+        case launchAtLogin
+        case cliTimeout
+    }
+
+    /// Tolerant decoding: any key missing from an older settings.json falls
+    /// back to its default instead of failing the whole decode (CacheStore
+    /// deletes undecodable files, which would silently reset every setting).
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Keys.self)
+        let fallback = AppSettings()
+        statusRefreshInterval =
+            try container.decodeIfPresent(TimeInterval.self, forKey: .statusRefreshInterval)
+            ?? fallback.statusRefreshInterval
+        usageRefreshInterval =
+            try container.decodeIfPresent(TimeInterval.self, forKey: .usageRefreshInterval)
+            ?? fallback.usageRefreshInterval
+        menuBarDisplayMode =
+            try container.decodeIfPresent(MenuBarDisplayMode.self, forKey: .menuBarDisplayMode)
+            ?? fallback.menuBarDisplayMode
+        appearance =
+            try container.decodeIfPresent(AppearanceMode.self, forKey: .appearance)
+            ?? fallback.appearance
+        heatmapMonths =
+            try container.decodeIfPresent(Int.self, forKey: .heatmapMonths)
+            ?? fallback.heatmapMonths
+        notifyWeeklyBelow10 =
+            try container.decodeIfPresent(Bool.self, forKey: .notifyWeeklyBelow10)
+            ?? fallback.notifyWeeklyBelow10
+        notifyWeeklyBelow5 =
+            try container.decodeIfPresent(Bool.self, forKey: .notifyWeeklyBelow5)
+            ?? fallback.notifyWeeklyBelow5
+        notifyFiveHourBelow10 =
+            try container.decodeIfPresent(Bool.self, forKey: .notifyFiveHourBelow10)
+            ?? fallback.notifyFiveHourBelow10
+        codexPathOverride =
+            try container.decodeIfPresent(String.self, forKey: .codexPathOverride)
+        launchAtLogin =
+            try container.decodeIfPresent(Bool.self, forKey: .launchAtLogin)
+            ?? fallback.launchAtLogin
+        cliTimeout =
+            try container.decodeIfPresent(TimeInterval.self, forKey: .cliTimeout)
+            ?? fallback.cliTimeout
+    }
+}
+
+// MARK: - Notification bookkeeping (not user-facing settings)
+
+/// Tracks which thresholds already fired within the current quota cycle.
+struct NotificationBookkeeping: Codable, Equatable {
+    var weeklyNotifiedBelow10CycleKey: String?
+    var weeklyNotifiedBelow5CycleKey: String?
+    var fiveHourNotifiedBelow10CycleKey: String?
+}
+
+// MARK: - Errors
+
+enum CodexBarError: LocalizedError {
+    case codexNotFound
+    case notSignedIn
+    case cliFailed(String)
+    case timeout
+    case parseFailed(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .codexNotFound:
+            return String(localized: "Codex CLI not found")
+        case .notSignedIn:
+            return String(localized: "Codex isn't signed in. Run:\ncodex login")
+        case .cliFailed(let detail):
+            return String(localized: "Codex CLI failed: \(detail)")
+        case .timeout:
+            return String(localized: "Codex CLI timed out")
+        case .parseFailed(let what):
+            return String(localized: "Could not parse \(what) output")
+        }
+    }
+}
