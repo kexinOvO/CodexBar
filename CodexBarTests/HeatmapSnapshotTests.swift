@@ -67,6 +67,38 @@ final class HeatmapSnapshotTests: XCTestCase {
         }
     }
 
+    /// Custom theme color: heatmap must follow the picked hue via the
+    /// brightness ladder, in both appearances. Temporary verification aid.
+    func testRenderThemeHeatmap() throws {
+        let usage = Self.sample()
+        let cases: [(name: String, hex: String, dark: Bool)] = [
+            ("gray-light", "#393939", false),
+            ("gray-dark", "#393939", true),
+            ("orange-light", "#E8590C", false),
+            ("orange-dark", "#E8590C", true),
+        ]
+        for c in cases {
+            let accent = ThemeColor.color(fromHex: c.hex)
+            let view = TokenActivitySection(usage: usage, months: 6, themeAccent: accent)
+                .padding(16)
+                .frame(width: 370)
+                .background(Color(nsColor: c.dark ? .underPageBackgroundColor : .windowBackgroundColor))
+                .environment(\.colorScheme, c.dark ? .dark : .light)
+            let renderer = ImageRenderer(content: view)
+            renderer.scale = 2
+            guard let image = renderer.nsImage,
+                  let tiff = image.tiffRepresentation,
+                  let rep = NSBitmapImageRep(data: tiff),
+                  let png = rep.representation(using: .png, properties: [:]) else {
+                XCTFail("render failed for \(c.name)")
+                continue
+            }
+            let url = URL(fileURLWithPath: "/tmp/codexbar-heatmap-theme-\(c.name).png")
+            try png.write(to: url)
+            print("SNAPSHOT theme \(c.name) -> \(url.path)")
+        }
+    }
+
     /// Settings window at the smallest / largest slider positions. Uses a real
     /// NSHostingView in an offscreen window — `Form` doesn't render through
     /// ImageRenderer alone.

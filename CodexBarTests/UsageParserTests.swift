@@ -162,6 +162,117 @@ final class UsageParserTests: XCTestCase {
         XCTAssertTrue(usage.dailyActivity.isEmpty)
     }
 
+    // MARK: - Colour-driven intensity
+
+    /// The ramp codex-cli 0.155.1 prints once the terminal answers its
+    /// `OSC 10;?` / `OSC 11;?` colour queries. Measured from a real render.
+    private let liveRamp = ["209;209;209", "247;230;205", "241;207;160",
+                            "233;178;101", "223;142;29"]
+
+    private let weekdayLabels = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+
+    /// One row per weekday, five week columns.
+    private let tierGrid: [[Int]] = [
+        [0, 1, 2, 3, 4],
+        [4, 3, 2, 1, 0],
+        [0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1],
+        [2, 2, 2, 2, 2],
+        [3, 3, 3, 3, 3],
+        [4, 4, 4, 4, 4],
+    ]
+
+    /// Renders a heatmap the way the CLI does: one `■` per cell, level carried
+    /// by the 24-bit foreground colour, empty cells painted with the ramp's
+    /// dimmest step, ramp echoed on the legend line.
+    private func heatmapFixture(ramp: [String], grid: [[Int]]) -> String {
+        func painted(_ level: Int) -> String {
+            "\u{1B}[1m\u{1B}[38;2;\(ramp[level]);49m■\u{1B}[22m\u{1B}[39;49m"
+        }
+        let label = "\u{1B}[38;2;147;153;178;49m"
+
+        var out = "\u{1B}[1m Token activity\u{1B}[22m\(label)   last 12 months\u{1B}[39;49m\r\n"
+        out += " Lifetime 151M · Peak 71.9M · Streak 4d · Longest task 27m\r\n"
+        out += "\r\n"
+        out += "\(label)    Oct     Nov       Dec     Jan     Feb\u{1B}[39;49m\r\n"
+        for (index, row) in grid.enumerated() {
+            out += "\(label) \(weekdayLabels[index]) "
+            out += row.map(painted).joined(separator: " ")
+            out += "\r\n"
+        }
+        out += "\(label)   Less "
+        out += ramp.indices.map(painted).joined(separator: " ")
+        out += "\(label) More\r\n"
+        out += "\(label)   daily \u{1B}[39;49m· weekly · cumulative\r\n"
+        return out
+    }
+
+    /// The ramp is read back out of the legend line rather than hard-coded, so
+    /// the colour → level mapping survives theme and CLI version changes.
+    func testIntensityRampComesFromLegend() {
+        let lines = ANSIStyleScanner.styledLines(from: heatmapFixture(ramp: liveRamp,
+                                                                     grid: tierGrid))
+        let ramp = UsageParser.intensityRamp(in: lines)
+        XCTAssertEqual(ramp?.count, 5)
+        XCTAssertEqual(ramp?.first, ANSIRGB(red: 209, green: 209, blue: 209))
+        XCTAssertEqual(ramp?.last, ANSIRGB(red: 223, green: 142, blue: 29))
+    }
+
+    /// Regression: every non-empty day used to collapse to level 4 because the
+    /// parser read the glyph (always `■`) instead of the colour, so a
+    /// high-usage day and a barely-used one rendered identically.
+    func testColourCarriesIntensity() {
+        let usage = UsageParser.parse(heatmapFixture(ramp: liveRamp, grid: tierGrid))
+
+        let nonzero = Set(usage.dailyActivity.map(\.intensity)).subtracting([0])
+        XCTAssertEqual(nonzero, [1, 2, 3, 4], "every tier must survive parsing")
+
+        let sundays = usage.dailyActivity
+            .filter { Calendar.current.component(.weekday, from: $0.date) == 1 }
+            .sorted { $0.date < $1.date }
+        XCTAssertEqual(sundays.map(\.intensity), [0, 1, 2, 3, 4])
+
+        let saturdays = usage.dailyActivity
+            .filter { Calendar.current.component(.weekday, from: $0.date) == 7 }
+            .sorted { $0.date < $1.date }
+        XCTAssertFalse(saturdays.isEmpty)
+        XCTAssertTrue(saturdays.allSatisfy { $0.intensity == 4 })
+    }
+
+    /// When nothing answers the CLI's background query the legend collapses to
+    /// one colour. That carries no information, so the parser must fall back to
+    /// the glyph ladder instead of inventing a distribution.
+    func testCollapsedRampFallsBackToGlyphLadder() {
+        let collapsed = ["209;209;209", "249;226;175", "249;226;175",
+                         "249;226;175", "249;226;175"]
+        let lines = ANSIStyleScanner.styledLines(from: heatmapFixture(ramp: collapsed,
+                                                                     grid: tierGrid))
+        XCTAssertNil(UsageParser.intensityRamp(in: lines))
+
+        let usage = UsageParser.parse(heatmapFixture(ramp: collapsed, grid: tierGrid))
+        XCTAssertFalse(usage.dailyActivity.isEmpty)
+        XCTAssertTrue(usage.dailyActivity.allSatisfy { $0.intensity == 4 })
+    }
+
+    /// A ramp with more swatches than the 0...4 model is scaled onto it.
+    func testLevelNormalizesRampOntoFourTiers() {
+        let ramp = (0...5).map { ANSIRGB(red: $0 * 50, green: $0 * 50, blue: $0 * 50) }
+        let levels = ramp.map {
+            UsageParser.level(for: StyledCharacter(character: "■", color: $0), ramp: ramp)
+        }
+        XCTAssertEqual(levels, [0, 1, 2, 2, 3, 4])
+    }
+
+    /// Without a ramp there is nothing to calibrate against, so the glyph
+    /// decides — including for the dim `□` the CLI uses for empty cells.
+    func testLevelFallsBackToGlyphWithoutRamp() {
+        let hollow = StyledCharacter(character: "□",
+                                     color: ANSIRGB(red: 1, green: 2, blue: 3))
+        let block = StyledCharacter(character: "■", color: nil)
+        XCTAssertEqual(UsageParser.level(for: hollow, ramp: nil), 0)
+        XCTAssertEqual(UsageParser.level(for: block, ramp: nil), 4)
+    }
+
     func testUnitParsing() {
         XCTAssertEqual(QuantityParser.tokens("150M"), 150_000_000)
         XCTAssertEqual(QuantityParser.tokens("150.0M"), 150_000_000)

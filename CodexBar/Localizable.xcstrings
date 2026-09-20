@@ -1,3372 +1,3951 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "%@ remaining": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "noch %@"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {},
+    "%@ remaining" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "noch %@"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "残り %@"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り %@"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 남음"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 남음"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩余 %@"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余 %@"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩餘 %@"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩餘 %@"
           }
         }
       }
     },
-    "%@ remaining · resets %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "noch %@ · Zurücksetzung: %@"
+    "%@ remaining · resets %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "noch %@ · Zurücksetzung: %@"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "残り %@ · リセット: %@"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り %@ · リセット: %@"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 남음 · 초기화: %@"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 남음 · 초기화: %@"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩余 %@ · 重置时间：%@"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余 %@ · 重置时间：%@"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩餘 %@ · 重設時間：%@"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩餘 %@ · 重設時間：%@"
           }
         }
       }
     },
-    "%@ tokens": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ Token"
+    "%@ tokens" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Token"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ トークン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ トークン"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 토큰"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 토큰"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 个 Token"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 个 Token"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 個 Token"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 個 Token"
           }
         }
       }
     },
-    "%lld days": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Tage"
+    "%lld days" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Tage"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld日"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld日"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld일"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld일"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天"
           }
         }
       }
     },
-    "%lld days ago": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "vor %lld Tagen"
+    "%lld days ago" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vor %lld Tagen"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld日前"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld日前"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld일 전"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld일 전"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天前"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天前"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天前"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天前"
           }
         }
       }
     },
-    "%lld min": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Min."
+    "%lld min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘"
           }
         }
       }
     },
-    "%lld min ago": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "vor %lld Minuten"
+    "%lld min ago" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vor %lld Minuten"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld分前"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld分前"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld분 전"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld분 전"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分钟前"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟前"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分鐘前"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘前"
           }
         }
       }
     },
-    "%lld months": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Monate"
+    "%lld months" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Monate"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lldか月"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldか月"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld개월"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld개월"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 个月"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个月"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 個月"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個月"
           }
         }
       }
     },
-    "%lld sec": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Sek."
+    "%lld sec" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Sek."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld秒"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld秒"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld초"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld초"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 秒"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 秒"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 秒"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 秒"
           }
         }
       }
     },
-    "%lldd": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld T."
+    "%lldd" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld T."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld日"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld日"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld일"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld일"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天"
           }
         }
       }
     },
-    "%lldd %lldh": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld T. %lld Std."
+    "%lldd %lldh" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld T. %lld Std."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld日%lld時間"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld日%lld時間"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld일 %lld시간"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld일 %lld시간"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天 %lld 小时"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天 %lld 小时"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 天 %lld 小時"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 天 %lld 小時"
           }
         }
       }
     },
-    "%lldh": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Std."
+    "%lldh" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Std."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld時間"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld時間"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld시간"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld시간"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小时"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小时"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小時"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小時"
           }
         }
       }
     },
-    "%lldh %lldm": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Std. %lld Min."
+    "%lldh %lldm" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Std. %lld Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld時間%lld分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld時間%lld分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld시간 %lld분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld시간 %lld분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小时 %lld 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小时 %lld 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小時 %lld 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小時 %lld 分鐘"
           }
         }
       }
     },
-    "%lldh ago": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "vor %lld Std."
+    "%lldh ago" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vor %lld Std."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld時間前"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld時間前"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld시간 전"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld시간 전"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小时前"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小时前"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 小時前"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 小時前"
           }
         }
       }
     },
-    "%lldm": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Min."
+    "%lldm" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘"
           }
         }
       }
     },
-    "1 day": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 Tag"
+    "1 day" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Tag"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1日"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1日"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1일"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1일"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 天"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 天"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
           }
         }
       }
     },
-    "1 day ago": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "vor 1 Tag"
+    "1 day ago" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vor 1 Tag"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1日前"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1日前"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1일 전"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1일 전"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 天前"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天前"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 天前"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天前"
           }
         }
       }
     },
-    "1 min": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 Min."
+    "1 min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 分鐘"
           }
         }
       }
     },
-    "1 min ago": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "vor 1 Minute"
+    "1 min ago" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vor 1 Minute"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1分前"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1分前"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1분 전"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1분 전"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 分钟前"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 分钟前"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 分鐘前"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 分鐘前"
           }
         }
       }
     },
-    "10 min": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10 Min."
+    "10 min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 分鐘"
           }
         }
       }
     },
-    "15 min": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "15 Min."
+    "15 min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15 Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "15分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "15분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "15 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "15 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15 分鐘"
           }
         }
       }
     },
-    "30 min": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30 Min."
+    "30 min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 分鐘"
           }
         }
       }
     },
-    "5 hour limit": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5-Stunden-Limit"
+    "5 hour limit" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-Stunden-Limit"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5時間の上限"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5時間の上限"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5시간 한도"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5시간 한도"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小时额度"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 小时额度"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小時額度"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 小時額度"
           }
         }
       }
     },
-    "5 min": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 Min."
+    "5 min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 Min."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5分"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5分"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5분"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5분"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 分钟"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 分鐘"
           }
         }
       }
     },
-    "5h + Weekly %": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 Std. + Woche %"
+    "5h + Weekly %" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 Std. + Woche %"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5時間 + 週間 %"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5時間 + 週間 %"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5시간 + 주간 %"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5시간 + 주간 %"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小时 + 每周 %"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 小时 + 每周 %"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小時 + 每週 %"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 小時 + 每週 %"
           }
         }
       }
     },
-    "5h below 10%": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 Std. unter 10 %"
+    "5h below 10%" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 Std. unter 10 %"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5時間が 10% 未満"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5時間が 10% 未満"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5시간 10% 미만"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5시간 10% 미만"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小时低于 10%"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 小时低于 10%"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 小時低於 10%"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 小時低於 10%"
           }
         }
       }
     },
-    "Activity refresh interval": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktualisierungsintervall für Aktivität"
+    "Activity refresh interval" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisierungsintervall für Aktivität"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アクティビティの更新間隔"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクティビティの更新間隔"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "활동 새로 고침 간격"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "활동 새로 고침 간격"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活动刷新间隔"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动刷新间隔"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活動重新整理間隔"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活動重新整理間隔"
           }
         }
       }
     },
-    "Appearance": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Darstellung"
+    "Appearance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darstellung"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "外観"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外観"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "모양"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모양"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "外观"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外观"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "外觀"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外觀"
           }
         }
       }
     },
-    "CLI": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CLI"
+    "Brightness distinguishes usage states and activity levels." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Helligkeit unterscheidet Verwendungsstatus und Aktivitätsstufen."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CLI"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明るさで使用状況とアクティビティのレベルを区別します。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CLI"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "밝기로 사용량 상태와 활동 수준을 구분합니다."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CLI"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以明度区分用量状态与活动等级。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CLI"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以明度區分用量狀態與活動等級。"
           }
         }
       }
     },
-    "Checking…": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wird geprüft…"
+    "CLI" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CLI"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "確認中…"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CLI"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "확인 중…"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CLI"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "检查中…"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CLI"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "檢查中…"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CLI"
           }
         }
       }
     },
-    "Codex 5h usage is low": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex: 5-Stunden-Kontingent fast aufgebraucht"
+    "Checking…" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird geprüft…"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex の5時間利用枠が残りわずかです"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認中…"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 5시간 사용량이 얼마 남지 않았습니다"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인 중…"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 5 小时额度即将用尽"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查中…"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 5 小時額度即將用盡"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查中…"
           }
         }
       }
     },
-    "Codex CLI failed: %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI fehlgeschlagen: %@"
+    "Codex 5h usage is low" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex: 5-Stunden-Kontingent fast aufgebraucht"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI でエラーが発生しました: %@"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex の5時間利用枠が残りわずかです"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI 실행 실패: %@"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 5시간 사용량이 얼마 남지 않았습니다"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI 运行失败：%@"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 5 小时额度即将用尽"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI 執行失敗：%@"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 5 小時額度即將用盡"
           }
         }
       }
     },
-    "Codex CLI not found": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI nicht gefunden"
+    "Codex CLI failed: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI fehlgeschlagen: %@"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI が見つかりません"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI でエラーが発生しました: %@"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI를 찾을 수 없습니다"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI 실행 실패: %@"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未找到 Codex CLI"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI 运行失败：%@"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "找不到 Codex CLI"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI 執行失敗：%@"
           }
         }
       }
     },
-    "Codex CLI not found. Install Codex CLI and sign in with: codex login": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI nicht gefunden. Codex CLI installieren und mit codex login anmelden"
+    "Codex CLI not found" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI nicht gefunden"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI が見つかりません。Codex CLI をインストールし、codex login でサインインしてください"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI が見つかりません"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI를 찾을 수 없습니다. Codex CLI를 설치한 후 codex login으로 로그인하세요"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI를 찾을 수 없습니다"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未找到 Codex CLI。请安装 Codex CLI 并登录：codex login"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到 Codex CLI"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "找不到 Codex CLI。請安裝 Codex CLI 並登入：codex login"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到 Codex CLI"
           }
         }
       }
     },
-    "Codex CLI timed out": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeitüberschreitung bei Codex CLI"
+    "Codex CLI not found. Install Codex CLI and sign in with: codex login" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI nicht gefunden. Codex CLI installieren und mit codex login anmelden"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI がタイムアウトしました"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI が見つかりません。Codex CLI をインストールし、codex login でサインインしてください"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI 응답 시간 초과"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI를 찾을 수 없습니다. Codex CLI를 설치한 후 codex login으로 로그인하세요"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI 响应超时"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到 Codex CLI。请安装 Codex CLI 并登录：codex login"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI 回應逾時"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到 Codex CLI。請安裝 Codex CLI 並登入：codex login"
           }
         }
       }
     },
-    "Codex isn't signed in": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex ist nicht angemeldet"
+    "Codex CLI timed out" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitüberschreitung bei Codex CLI"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex にサインインしていません"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI がタイムアウトしました"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex에 로그인되어 있지 않습니다"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI 응답 시간 초과"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 未登录"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI 响应超时"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 尚未登入"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI 回應逾時"
           }
         }
       }
     },
-    "Codex isn't signed in. Run:\ncodex login": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex ist nicht angemeldet. Bitte ausführen:\ncodex login"
+    "Codex isn't signed in" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex ist nicht angemeldet"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex にサインインしていません。次を実行してください:\ncodex login"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex にサインインしていません"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex에 로그인되어 있지 않습니다. 다음을 실행하세요:\ncodex login"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex에 로그인되어 있지 않습니다"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 未登录。请运行：\ncodex login"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 未登录"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 尚未登入。請執行：\ncodex login"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 尚未登入"
           }
         }
       }
     },
-    "Codex path": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex-Pfad"
+    "Codex isn't signed in. Run:\ncodex login" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex ist nicht angemeldet. Bitte ausführen:\ncodex login"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex のパス"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex にサインインしていません。次を実行してください:\ncodex login"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 경로"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex에 로그인되어 있지 않습니다. 다음을 실행하세요:\ncodex login"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 路径"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 未登录。请运行：\ncodex login"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 路徑"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 尚未登入。請執行：\ncodex login"
           }
         }
       }
     },
-    "Codex version": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex-Version"
+    "Codex path" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex-Pfad"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex のバージョン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex のパス"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 버전"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 경로"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 版本"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 路径"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 版本"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 路徑"
           }
         }
       }
     },
-    "Codex weekly usage is low": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex: Wochenkontingent fast aufgebraucht"
+    "Codex version" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex-Version"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex の週間利用枠が残りわずかです"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex のバージョン"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 주간 사용량이 얼마 남지 않았습니다"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 버전"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 每周额度即将用尽"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 版本"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex 每週額度即將用盡"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 版本"
           }
         }
       }
     },
-    "CodexBar Settings": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar-Einstellungen"
+    "Codex weekly usage is low" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex: Wochenkontingent fast aufgebraucht"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar の設定"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex の週間利用枠が残りわずかです"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar 설정"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 주간 사용량이 얼마 남지 않았습니다"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar 设置"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 每周额度即将用尽"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar 設定"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex 每週額度即將用盡"
           }
         }
       }
     },
-    "Connected": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verbunden"
+    "Color" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farbe"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "接続済み"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カラー"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "연결됨"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "색상"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已连接"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已連線"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顏色"
           }
         }
       }
     },
-    "Connection state": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verbindungsstatus"
+    "Connected" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbunden"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "接続状態"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続済み"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "연결 상태"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "연결됨"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "连接状态"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已连接"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "連線狀態"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已連線"
           }
         }
       }
     },
-    "Could not parse %@ output": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ausgabe von %@ konnte nicht gelesen werden"
+    "Connection state" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbindungsstatus"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ の出力を解析できませんでした"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続状態"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 출력을 분석할 수 없습니다"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "연결 상태"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无法解析 %@ 的输出"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接状态"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無法解析 %@ 的輸出"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連線狀態"
           }
         }
       }
     },
-    "Dark": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dunkel"
+    "Could not parse %@ output" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgabe von %@ konnte nicht gelesen werden"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ダーク"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ の出力を解析できませんでした"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "다크"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 출력을 분석할 수 없습니다"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "深色"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法解析 %@ 的输出"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "深色"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法解析 %@ 的輸出"
           }
         }
       }
     },
-    "Detect": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ermitteln"
+    "Custom" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benutzerdefiniert"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "検出"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カスタム"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "감지"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자 지정"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "检测"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "偵測"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂"
           }
         }
       }
     },
-    "Display": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anzeige"
+    "Dark" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dunkel"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "表示"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダーク"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "표시"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다크"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "显示内容"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "顯示內容"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色"
           }
         }
       }
     },
-    "Failing: %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fehler: %@"
+    "Default" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "エラー: %@"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デフォルト"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "실패: %@"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기본값"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "失败：%@"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "失敗：%@"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設"
           }
         }
       }
     },
-    "General": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Allgemein"
+    "Detect" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ermitteln"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一般"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検出"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "일반"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "감지"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通用"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检测"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一般"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偵測"
           }
         }
       }
     },
-    "Heatmap": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Heatmap"
+    "Diagnostics" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnose"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ヒートマップ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "診断"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "히트맵"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "진단"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "热力图"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "诊断"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "熱力圖"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "診斷"
           }
         }
       }
     },
-    "Icon only": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nur Symbol"
+    "Display" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anzeige"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アイコンのみ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "아이콘만"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "仅图标"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示内容"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "僅圖示"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示內容"
           }
         }
       }
     },
-    "Install Codex CLI and sign in with:": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI installieren und anmelden mit:"
+    "Display mode" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anzeigemodus"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI をインストールし、次でサインインしてください:"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示モード"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Codex CLI를 설치한 후 다음으로 로그인하세요:"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시 모드"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请安装 Codex CLI 并登录："
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示模式"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "請安裝 Codex CLI 並登入："
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示模式"
           }
         }
       }
     },
-    "Last successful query": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Letzte erfolgreiche Abfrage"
+    "Failing: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler: %@"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最後に成功した取得"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エラー: %@"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "마지막 성공 조회"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실패: %@"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "上次成功查询"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失败：%@"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "上次成功查詢"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失敗：%@"
           }
         }
       }
     },
-    "Launch at Login": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bei Anmeldung öffnen"
+    "Full" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vollständig"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ログイン時に開く"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フル"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "로그인 시 열기"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "登录时打开"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完整"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "登入時打開"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完整"
           }
         }
       }
     },
-    "Lifetime": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gesamt"
+    "General" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allgemein"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "累計"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一般"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "누적"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "累计"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "累計"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一般"
           }
         }
       }
     },
-    "Light": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hell"
+    "Heatmap" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heatmap"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ライト"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヒートマップ"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "라이트"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "히트맵"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "浅色"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "热力图"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "淺色"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "熱力圖"
           }
         }
       }
     },
-    "Longest task": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Längste Aufgabe"
+    "Icon only" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Symbol"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最長タスク"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイコンのみ"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "최장 작업"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아이콘만"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最长任务"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅图标"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "最長任務"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅圖示"
           }
         }
       }
     },
-    "Menu Bar": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Menüleiste"
+    "Install Codex CLI and sign in with:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI installieren und anmelden mit:"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "メニューバー"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI をインストールし、次でサインインしてください:"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "메뉴 막대"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI를 설치한 후 다음으로 로그인하세요:"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "菜单栏"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请安装 Codex CLI 并登录："
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選單列"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請安裝 Codex CLI 並登入："
           }
         }
       }
     },
-    "Months of token activity to show in the heatmap.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anzahl der Monate der Token-Aktivität in der Heatmap."
+    "Last successful query" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letzte erfolgreiche Abfrage"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ヒートマップに表示するトークン活動の月数。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後に成功した取得"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "히트맵에 표시할 토큰 활동 개월 수입니다."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마지막 성공 조회"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "热力图显示的 Token 活动月份数。"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次成功查询"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "熱力圖顯示的 Token 活動月份數。"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次成功查詢"
           }
         }
       }
     },
-    "No Codex CLI found on this Mac.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Auf diesem Mac wurde kein Codex-CLI gefunden."
+    "Launch at Login" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei Anmeldung öffnen"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "この Mac に Codex CLI が見つかりません。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン時に開く"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "이 Mac에서 Codex CLI를 찾을 수 없습니다."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 시 열기"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "这台 Mac 上未找到 Codex CLI。"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登录时打开"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "這台 Mac 上找不到 Codex CLI。"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登入時打開"
           }
         }
       }
     },
-    "No activity data yet — the CLI didn't return usage details.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noch keine Aktivitätsdaten – die CLI hat keine Nutzungsdetails zurückgegeben."
+    "Lifetime" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesamt"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アクティビティデータがまだありません — CLI が使用状況の詳細を返しませんでした。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累計"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "아직 활동 데이터가 없습니다 — CLI가 사용량 세부 정보를 반환하지 않았습니다."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "누적"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂无活动数据 —— CLI 未返回用量详情。"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累计"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "尚無活動資料 —— CLI 未傳回用量詳情。"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累計"
           }
         }
       }
     },
-    "No runnable Codex CLI at that path.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unter diesem Pfad wurde kein ausführbares Codex-CLI gefunden."
+    "Lifetime, peak, streak and longest-task summary below the heatmap." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zusammenfassung von Gesamt, Spitze, Serie und längster Aufgabe unter der Heatmap."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "そのパスに実行可能な Codex CLI が見つかりません。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヒートマップの下に累計・ピーク・連続日数・最長タスクの概要を表示します。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "해당 경로에 실행 가능한 Codex CLI가 없습니다."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "히트맵 아래에 누적·피크·연속 일수·최장 작업 요약을 표시합니다."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该路径下没有可运行的 Codex CLI。"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在热力图下方显示累计、峰值、连续天数与最长任务摘要。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "該路徑下沒有可執行的 Codex CLI。"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在熱力圖下方顯示累計、峰值、連續天數與最長任務摘要。"
           }
         }
       }
     },
-    "Not signed in": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nicht angemeldet"
+    "Light" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hell"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未サインイン"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ライト"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "로그인되지 않음"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "라이트"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未登录"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未登入"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "淺色"
           }
         }
       }
     },
-    "Notifications": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mitteilungen"
+    "Longest task" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Längste Aufgabe"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通知"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最長タスク"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "알림"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최장 작업"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通知"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最长任务"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "通知"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最長任務"
           }
         }
       }
     },
-    "Peak": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Spitzenwert"
+    "Menu Bar" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menüleiste"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ピーク"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メニューバー"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "최고치"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴 막대"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "峰值"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菜单栏"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "峰值"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選單列"
           }
         }
       }
     },
-    "Quit CodexBar": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar beenden"
+    "Mode" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modus"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar を終了"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "モード"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "CodexBar 종료"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모드"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "退出 CodexBar"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模式"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "結束 CodexBar"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模式"
           }
         }
       }
     },
-    "Range": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeitraum"
+    "Months of token activity to show in the heatmap." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anzahl der Monate der Token-Aktivität in der Heatmap."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "表示期間"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヒートマップに表示するトークン活動の月数。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "표시 범위"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "히트맵에 표시할 토큰 활동 개월 수입니다."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "显示范围"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "热力图显示的 Token 活动月份数。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "顯示範圍"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "熱力圖顯示的 Token 活動月份數。"
           }
         }
       }
     },
-    "Refresh": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktualisierung"
+    "No Codex CLI found on this Mac." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf diesem Mac wurde kein Codex-CLI gefunden."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "更新"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この Mac に Codex CLI が見つかりません。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "새로 고침"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서 Codex CLI를 찾을 수 없습니다."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "刷新"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台 Mac 上未找到 Codex CLI。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重新整理"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這台 Mac 上找不到 Codex CLI。"
           }
         }
       }
     },
-    "Refresh now": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jetzt aktualisieren"
+    "No activity data yet — the CLI didn't return usage details." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Aktivitätsdaten – die CLI hat keine Nutzungsdetails zurückgegeben."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "今すぐ更新"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクティビティデータがまだありません — CLI が使用状況の詳細を返しませんでした。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "지금 새로 고침"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 활동 데이터가 없습니다 — CLI가 사용량 세부 정보를 반환하지 않았습니다."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "立即刷新"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无活动数据 —— CLI 未返回用量详情。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "立即重新整理"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚無活動資料 —— CLI 未傳回用量詳情。"
           }
         }
       }
     },
-    "Registration failed. Approve CodexBar in System Settings › General › Login Items.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registrierung fehlgeschlagen. Erlaube CodexBar unter „Systemeinstellungen › Allgemein › Anmeldeobjekte“."
+    "No runnable Codex CLI at that path." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unter diesem Pfad wurde kein ausführbares Codex-CLI gefunden."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "登録に失敗しました。「システム設定 › 一般 › ログイン項目」で CodexBar を許可してください。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そのパスに実行可能な Codex CLI が見つかりません。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "등록하지 못했습니다. '시스템 설정 › 일반 › 로그인 항목'에서 CodexBar를 허용하세요."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "해당 경로에 실행 가능한 Codex CLI가 없습니다."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "注册失败。请在「系统设置 › 通用 › 登录项」中允许 CodexBar。"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该路径下没有可运行的 Codex CLI。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "註冊失敗。請在「系統設定 › 一般 › 登入項目」中允許 CodexBar。"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該路徑下沒有可執行的 Codex CLI。"
           }
         }
       }
     },
-    "Remaining quota is critically low": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verbleibendes Kontingent ist kritisch niedrig"
+    "Not signed in" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht angemeldet"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "残りの利用枠が非常に少なくなっています"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未サインイン"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "남은 사용량이 매우 부족합니다"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인되지 않음"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩余额度已极低"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未登录"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剩餘額度已極低"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未登入"
           }
         }
       }
     },
-    "Reset %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zurücksetzung: %@"
+    "Notifications" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitteilungen"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "リセット: %@"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "초기화: %@"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重置：%@"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重設：%@"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
           }
         }
       }
     },
-    "Reset imminent": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zurücksetzung steht bevor"
+    "Peak" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spitzenwert"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "まもなくリセット"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ピーク"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "곧 초기화"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최고치"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "即将重置"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "峰值"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "即將重設"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "峰值"
           }
         }
       }
     },
-    "Reset in %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zurücksetzung in %@"
+    "Quit CodexBar" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CodexBar beenden"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@後にリセット"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CodexBar を終了"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 후 초기화"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CodexBar 종료"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@后重置"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出 CodexBar"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@後重設"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結束 CodexBar"
           }
         }
       }
     },
-    "Resolved executable": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufgelöste ausführbare Datei"
+    "Quota" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontingent"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "解決された実行ファイル"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "割り当て"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "확인된 실행 파일"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "할당량"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "实际调用的可执行文件"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "额度"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "實際呼叫的執行檔"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "額度"
           }
         }
       }
     },
-    "Run:": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ausführen:"
+    "Range" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitraum"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "実行:"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示期間"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "실행:"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시 범위"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "运行："
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示范围"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "執行："
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示範圍"
           }
         }
       }
     },
-    "Settings": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen"
+    "Refresh" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisierung"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "설정"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로 고침"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "设置"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刷新"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新整理"
           }
         }
       }
     },
-    "Showing cached data from %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zwischengespeicherte Daten von %@ werden angezeigt"
+    "Refresh now" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jetzt aktualisieren"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ のキャッシュデータを表示しています"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐ更新"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@의 캐시 데이터를 표시하는 중"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 새로 고침"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在显示 %@ 的缓存数据"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即刷新"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "正在顯示 %@ 的快取資料"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即重新整理"
           }
         }
       }
     },
-    "Status refresh interval": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktualisierungsintervall für Status"
+    "Registration failed. Approve CodexBar in System Settings › General › Login Items." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrierung fehlgeschlagen. Erlaube CodexBar unter „Systemeinstellungen › Allgemein › Anmeldeobjekte“."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ステータスの更新間隔"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登録に失敗しました。「システム設定 › 一般 › ログイン項目」で CodexBar を許可してください。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "상태 새로 고침 간격"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "등록하지 못했습니다. '시스템 설정 › 일반 › 로그인 항목'에서 CodexBar를 허용하세요."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "状态刷新间隔"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注册失败。请在「系统设置 › 通用 › 登录项」中允许 CodexBar。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "狀態重新整理間隔"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "註冊失敗。請在「系統設定 › 一般 › 登入項目」中允許 CodexBar。"
           }
         }
       }
     },
-    "Streak": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Serie"
+    "Remaining quota is critically low" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbleibendes Kontingent ist kritisch niedrig"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "連続日数"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残りの利用枠が非常に少なくなっています"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "연속 일수"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "남은 사용량이 매우 부족합니다"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "连续天数"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余额度已极低"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "連續天數"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩餘額度已極低"
           }
         }
       }
     },
-    "System": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Automatisch"
+    "Reset %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurücksetzung: %@"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "システム"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リセット: %@"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "시스템"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "초기화: %@"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "自动"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置：%@"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "自動"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重設：%@"
           }
         }
       }
     },
-    "Token activity": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Token-Aktivität"
+    "Reset imminent" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurücksetzung steht bevor"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "トークンアクティビティ"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まもなくリセット"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "토큰 활동"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "곧 초기화"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Token 活动"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即将重置"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Token 活動"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即將重設"
           }
         }
       }
     },
-    "Unable to refresh": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktualisierung nicht möglich"
+    "Reset in %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurücksetzung in %@"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "更新できません"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@後にリセット"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "새로 고침할 수 없음"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 후 초기화"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无法刷新"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@后重置"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無法重新整理"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@後重設"
           }
         }
       }
     },
-    "Unavailable": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nicht verfügbar"
+    "Resolved executable" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufgelöste ausführbare Datei"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "取得できません"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解決された実行ファイル"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "사용할 수 없음"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인된 실행 파일"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "不可用"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实际调用的可执行文件"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "不可用"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實際呼叫的執行檔"
           }
         }
       }
     },
-    "Unknown": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unbekannt"
+    "Run:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausführen:"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "不明"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実行:"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "알 수 없음"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실행:"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未知"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "运行："
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未知"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "執行："
           }
         }
       }
     },
-    "Unknown error": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unbekannter Fehler"
+    "Settings" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "不明なエラー"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "알 수 없는 오류"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未知错误"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "未知錯誤"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
           }
         }
       }
     },
-    "Unregistration failed. Check System Settings › General › Login Items.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufheben der Registrierung fehlgeschlagen. Prüfe „Systemeinstellungen › Allgemein › Anmeldeobjekte“."
+    "Showing cached data from %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwischengespeicherte Daten von %@ werden angezeigt"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "登録解除に失敗しました。「システム設定 › 一般 › ログイン項目」を確認してください。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ のキャッシュデータを表示しています"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "등록 해제하지 못했습니다. '시스템 설정 › 일반 › 로그인 항목'을 확인하세요."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 캐시 데이터를 표시하는 중"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "注销失败。请检查「系统设置 › 通用 › 登录项」。"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在显示 %@ 的缓存数据"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "取消註冊失敗。請檢查「系統設定 › 一般 › 登入項目」。"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在顯示 %@ 的快取資料"
           }
         }
       }
     },
-    "Updated %@": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktualisiert %@"
+    "Simple" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einfach"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "更新: %@"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "シンプル"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "업데이트: %@"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "간단"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@更新"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "简单"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@更新"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "簡單"
           }
         }
       }
     },
-    "Weekly": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wochenlimit"
+    "Simple hides when each quota resets." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einfach blendet die Rücksetzzeit der Kontingente aus."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "週間の上限"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "シンプルでは各割り当てのリセット時刻を表示しません。"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "주간 한도"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "간단 모드에서는 각 할당량의 초기화 시간을 표시하지 않습니다."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每周额度"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "简单模式下不显示各项额度的重置时间。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每週額度"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "簡易模式下不顯示各項額度的重設時間。"
           }
         }
       }
     },
-    "Weekly below 10%": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wöchentlich unter 10 %"
+    "Startup" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "週間が 10% 未満"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起動"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "주간 10% 미만"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每周低于 10%"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启动"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每週低於 10%"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啟動"
           }
         }
       }
     },
-    "Weekly below 5%": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wöchentlich unter 5 %"
+    "Status refresh interval" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisierungsintervall für Status"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "週間が 5% 未満"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ステータスの更新間隔"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "주간 5% 미만"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상태 새로 고침 간격"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每周低于 5%"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态刷新间隔"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每週低於 5%"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "狀態重新整理間隔"
           }
         }
       }
     },
-    "Weekly remaining %": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verbleibend wöchentlich %"
+    "Streak" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serie"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "週間の残り %"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連続日数"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "주간 잔여 %"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "연속 일수"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每周剩余百分比"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续天数"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每週剩餘百分比"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連續天數"
           }
         }
       }
     },
-    "activity level %lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktivitätsstufe %lld"
+    "System" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アクティビティ強度 %lld"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システム"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "활동 강도 %lld"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活动强度 %lld"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "活動強度 %lld"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動"
           }
         }
       }
     },
-    "failed": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "fehlgeschlagen"
+    "Theme Color" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Themenfarbe"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "失敗しました"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "テーマカラー"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "실패"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "테마 색상"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "失败"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主题色"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "失敗"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主題色"
           }
         }
       }
     },
-    "just now": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "gerade eben"
+    "Token activity" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token-Aktivität"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "たった今"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "トークンアクティビティ"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "방금 전"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "토큰 활동"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "刚刚"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token 活动"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "剛剛"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token 活動"
           }
         }
       }
     },
-    "never": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "noch nie"
+    "Unable to refresh" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisierung nicht möglich"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "なし"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新できません"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "없음"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로 고침할 수 없음"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "从未"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法刷新"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "從未"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法重新整理"
           }
         }
       }
     },
-    "no activity": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keine Aktivität"
+    "Unavailable" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht verfügbar"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "アクティビティなし"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取得できません"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "활동 없음"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용할 수 없음"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无活动"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不可用"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無活動"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不可用"
           }
         }
       }
     },
-    "soon": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "bald"
+    "Unknown" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannt"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "まもなく"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不明"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "곧"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알 수 없음"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "即将"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "即將"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
           }
         }
       }
     },
-    "unrecognized /status output": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unbekannte /status-Ausgabe"
+    "Unknown error" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannter Fehler"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "解釈できない /status 出力"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不明なエラー"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "인식할 수 없는 /status 출력"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알 수 없는 오류"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "无法识别的 /status 输出"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知错误"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "無法辨識的 /status 輸出"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知錯誤"
+          }
+        }
+      }
+    },
+    "Unregistration failed. Check System Settings › General › Login Items." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufheben der Registrierung fehlgeschlagen. Prüfe „Systemeinstellungen › Allgemein › Anmeldeobjekte“."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登録解除に失敗しました。「システム設定 › 一般 › ログイン項目」を確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "등록 해제하지 못했습니다. '시스템 설정 › 일반 › 로그인 항목'을 확인하세요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注销失败。请检查「系统设置 › 通用 › 登录项」。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消註冊失敗。請檢查「系統設定 › 一般 › 登入項目」。"
+          }
+        }
+      }
+    },
+    "Updated %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisiert %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@更新"
+          }
+        }
+      }
+    },
+    "Usage stats" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nutzungsstatistik"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用統計"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 통계"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用量统计"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用量統計"
+          }
+        }
+      }
+    },
+    "Weekly" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wochenlimit"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週間の上限"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주간 한도"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周额度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每週額度"
+          }
+        }
+      }
+    },
+    "Weekly below 10%" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wöchentlich unter 10 %"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週間が 10% 未満"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주간 10% 미만"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周低于 10%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每週低於 10%"
+          }
+        }
+      }
+    },
+    "Weekly below 5%" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wöchentlich unter 5 %"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週間が 5% 未満"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주간 5% 미만"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周低于 5%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每週低於 5%"
+          }
+        }
+      }
+    },
+    "Weekly remaining %" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbleibend wöchentlich %"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週間の残り %"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주간 잔여 %"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周剩余百分比"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每週剩餘百分比"
+          }
+        }
+      }
+    },
+    "failed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fehlgeschlagen"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失敗しました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실패"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失敗"
+          }
+        }
+      }
+    },
+    "just now" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gerade eben"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "たった今"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "방금 전"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刚刚"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剛剛"
+          }
+        }
+      }
+    },
+    "never" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "noch nie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "なし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "없음"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从未"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從未"
+          }
+        }
+      }
+    },
+    "no activity" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Aktivität"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクティビティなし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "활동 없음"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无活动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無活動"
+          }
+        }
+      }
+    },
+    "soon" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bald"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まもなく"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "곧"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即将"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即將"
+          }
+        }
+      }
+    },
+    "unrecognized /status output" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannte /status-Ausgabe"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解釈できない /status 出力"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인식할 수 없는 /status 출력"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法识别的 /status 输出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法辨識的 /status 輸出"
+          }
+        }
+      }
+    },
+    "Popover" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popover"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ポップオーバー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팝오버"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "弹窗"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "彈出視窗"
+          }
+        }
+      }
+    },
+    "Width" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Breite"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "幅"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "너비"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宽度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "寬度"
+          }
+        }
+      }
+    },
+    "%lld pt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pt"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pt"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pt"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pt"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pt"
+          }
+        }
+      }
+    },
+    "Width of the popover panel." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Breite des Popover-Fensters."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ポップオーバーの幅。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팝오버 패널의 너비입니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "弹窗面板的宽度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "彈出視窗面板的寬度。"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

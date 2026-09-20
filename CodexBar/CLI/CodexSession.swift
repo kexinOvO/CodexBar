@@ -18,6 +18,10 @@ final class CodexSession: @unchecked Sendable {
     private let lock = NSLock()
     private var buffer = Data()
 
+    /// OSC colour queries already answered in this session (`"]10;?"` /
+    /// `"]11;?"`). Only touched from the read source's serial queue.
+    private var answeredColorQueries: Set<String> = []
+
     private var childEnvironment: [String: String] = [:]
 
     // MARK: - Lifecycle
@@ -27,6 +31,11 @@ final class CodexSession: @unchecked Sendable {
     func start(executablePath: String, workingDirectory: String) throws {
         try FileManager.default.createDirectory(atPath: workingDirectory,
                                                 withIntermediateDirectories: true)
+
+        lock.lock()
+        buffer.removeAll()
+        lock.unlock()
+        answeredColorQueries.removeAll()
 
         var master: Int32 = 0
         var slave: Int32 = 0
@@ -60,6 +69,7 @@ final class CodexSession: @unchecked Sendable {
                 self.lock.lock()
                 self.buffer.append(contentsOf: chunk[0..<n])
                 self.lock.unlock()
+                self.answerColorQueries()
             }
         }
         source.setCancelHandler { [weak self] in
@@ -100,6 +110,40 @@ final class CodexSession: @unchecked Sendable {
         defer { lock.unlock() }
         return String(data: buffer, encoding: .utf8) ?? ""
     }
+
+    // MARK: - Terminal colour queries
+
+    /// Answers the CLI's default-colour queries (`OSC 10;?` for the foreground,
+    /// `OSC 11;?` for the background) the way a real terminal would.
+    ///
+    /// This is not cosmetic. When nobody answers, the CLI cannot resolve the
+    /// terminal's theme and collapses its heatmap ramp: every non-empty day is
+    /// painted with the *same* colour, and the 5-tier intensity information is
+    /// gone before the parser ever sees it (verified against codex-cli 0.155.1 —
+    /// answered: `#F7E6CD #F1CFA0 #E9B265 #DF8E1D`, unanswered: 4× `#F9E2AF`).
+    ///
+    /// We report a light background so the ramp comes back as distinct steps;
+    /// the app maps those colours onto its own accent palette, so the reported
+    /// theme never reaches the screen.
+    private func answerColorQueries() {
+        lock.lock()
+        let seen = buffer
+        lock.unlock()
+
+        for (query, response) in Self.colorQueryResponses
+        where !answeredColorQueries.contains(query) {
+            guard seen.range(of: Data("\u{1B}\(query)".utf8)) != nil else { continue }
+            answeredColorQueries.insert(query)
+            send("\u{1B}\(response)\u{1B}\\")
+        }
+    }
+
+    /// Query prefix -> reply. Replies use the ST terminator (`ESC \`), which
+    /// the CLI's parser accepts and which can't be confused with input.
+    private static let colorQueryResponses: [(String, String)] = [
+        ("]10;?", "]10;rgb:0000/0000/0000"),
+        ("]11;?", "]11;rgb:ffff/ffff/ffff"),
+    ]
 
     /// Waits until `pattern` appears in cleaned output, or output is quiet for
     /// `quietSeconds`, or `timeout` elapses. Returns true when pattern found.

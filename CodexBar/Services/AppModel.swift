@@ -64,6 +64,10 @@ final class AppModel: ObservableObject {
         // 1. Load caches first so the UI shows something instantly.
         let loadedSettings = cache.load(AppSettings.self, file: "settings.json") ?? .default
         self.settings = loadedSettings
+        // Re-encode the independently decoded value. This repairs missing or
+        // malformed individual fields on the next launch without waiting for
+        // the user to touch a setting, while retaining every valid value.
+        cache.save(loadedSettings, file: "settings.json")
         self.status = cache.load(CodexStatus.self, file: "status.json")
         self.usage = cache.load(CodexUsage.self, file: "usage.json")
 

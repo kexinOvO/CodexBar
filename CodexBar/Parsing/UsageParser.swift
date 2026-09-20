@@ -7,26 +7,42 @@ import Foundation
 
 /// Parses the output of the `/usage daily` slash command.
 ///
-/// Expected shape (from documented CLI behavior):
+/// Expected shape (verified against codex-cli 0.155.1):
 ///
 /// ```
 /// Token activity   last 12 months
 /// Lifetime 150M · Peak 71.9M · Streak 4d · Longest task 27m
 ///
 /// Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
-/// Su ■ ■ ■ ░ ...
-/// Mo ▒ ░ ■ ...
+/// Su ■ ■ ■ ■ ...
+/// Mo ■ ■ ■ ■ ...
 /// ...
-/// Less ░ ▒ ▓ ■ More
+/// Less ■ ■ ■ ■ ■ More
 /// daily · weekly · cumulative
 /// ```
+///
+/// **Intensity lives in the colour, not the glyph.** The CLI paints every
+/// non-empty cell with the same block (`■`, U+25A0) and only varies the SGR
+/// foreground colour; empty cells are a dim `□` (U+25A1) — or, when the
+/// terminal reports a light background, another `■` painted in the ramp's
+/// dimmest colour. So the level of a cell is read from the colour it was
+/// painted with, calibrated against the ramp the CLI itself prints on the
+/// legend line (see `intensityRamp`). The older `░▒▓` ladder is still accepted
+/// as a fallback for renders without colour.
 ///
 /// The parser is deliberately tolerant: separator characters between summary
 /// items may be "·", "|", "," or whitespace; intensity cells may be
 /// space-separated or adjacent.
 enum UsageParser {
 
+    /// Fallback ladder for renderings that carry no colour.
     static let blockLevels: [Character: Int] = ["░": 1, "▒": 2, "▓": 3, "■": 4, "█": 4]
+
+    /// Every glyph the CLI can use for a heatmap cell.
+    private static let cellGlyphs: Set<Character> = ["■", "□", "█", "▓", "▒", "░"]
+
+    /// Explicit empty-cell filler.
+    private static let emptyFillers: Set<Character> = ["·", "-", "0"]
 
     static func parse(_ rawOutput: String, now: Date = Date()) -> CodexUsage {
         let cleaned = ANSITextCleaner.clean(rawOutput)
@@ -43,8 +59,10 @@ enum UsageParser {
         usage.longestTaskSeconds = summaryLongestTask(in: text)
 
         // Heatmap section: from the "Token activity" marker line to the
-        // "Less ... More" legend or the view-mode footer.
-        usage.dailyActivity = parseHeatmap(lines: lines, now: now)
+        // "Less ... More" legend or the view-mode footer. Runs on the styled
+        // scan because intensity is carried by colour.
+        usage.dailyActivity = parseHeatmap(lines: ANSIStyleScanner.styledLines(from: rawOutput),
+                                           now: now)
         return usage
     }
 
@@ -77,24 +95,28 @@ enum UsageParser {
 
     // MARK: - Heatmap
 
-    /// Rows look like "Su ■ ■ ░ ..." (weekday + one cell per week column).
+    /// Rows look like "Su ■ ■ ■ ..." (weekday + one cell per week column).
     /// Columns run left (oldest) to right (most recent); the last column is
     /// the week containing "now".
-    static func parseHeatmap(lines: [String], now: Date) -> [DailyActivity] {
+    static func parseHeatmap(lines: [[StyledCharacter]], now: Date) -> [DailyActivity] {
         // Locate the header line ("Token activity ...").
         guard let headerIndex = lines.firstIndex(where: {
-            $0.lowercased().contains("token activity")
+            ANSIStyleScanner.plainText(of: $0).lowercased().contains("token activity")
         }) else { return [] }
+
+        // The CLI prints its own ramp on the legend line; use it as the scale.
+        let ramp = intensityRamp(in: lines)
 
         var rows: [(weekday: Int, cells: [Int])] = []
         for line in lines[(headerIndex + 1)...] {
-            let lower = line.lowercased()
+            let plain = ANSIStyleScanner.plainText(of: line)
+            let lower = plain.lowercased()
             if lower.hasPrefix("less") || lower.hasPrefix("daily")
                 || lower.hasPrefix("weekly") || lower.hasPrefix("cumulative") {
                 break
             }
-            if let weekday = weekdayIndex(of: line) {
-                if let cells = intensityCells(of: line) {
+            if let weekday = weekdayIndex(of: plain) {
+                if let cells = intensityCells(of: line, ramp: ramp) {
                     rows.append((weekday, cells))
                 }
             }
@@ -144,33 +166,68 @@ enum UsageParser {
         return nil
     }
 
-    /// Extracts one intensity level per week column from a heatmap row.
-    /// Whitespace is a separator, not a cell; an explicit light filler
-    /// ("·", "-", "0") marks an empty cell. Rows are padded with empty
-    /// cells on the right so all 7 rows align to the same column count.
-    static func intensityCells(of line: String) -> [Int]? {
-        let trimmed = line.trimmingCharacters(in: .whitespaces)
-        // Drop the weekday prefix (first 1–2 letters) and the separator gap
-        // between the label and the first cell.
-        guard let first = trimmed.first, first.isLetter else { return nil }
-        let body = String(trimmed.drop { $0.isLetter }.drop { $0 == " " })
-        // A valid row contains either an active cell or an explicit empty
-        // filler ("□", "·", "-"); plain text lines have neither.
-        let hasCell = body.contains {
-            blockLevels[$0] != nil || (!$0.isWhitespace && !$0.isLetter && !$0.isNumber)
+    /// The intensity ladder as printed on the legend line — "Less ■ ■ ■ ■ More"
+    /// or the older "Less ░ ▒ ▓ ■ More". Reading the ramp back out of the same
+    /// render keeps the colour → level mapping correct across themes and CLI
+    /// versions instead of hard-coding RGB values.
+    ///
+    /// Returns `nil` when the legend is missing or its colours collapse to
+    /// fewer than four distinct values. Four is the CLI's documented tier
+    /// count, so a shorter ladder means the ramp never resolved — that is what
+    /// happens when nothing answers the CLI's `OSC 11;?` background query, and
+    /// such a ramp says nothing about intensity. Callers then fall back to the
+    /// glyph ladder.
+    static func intensityRamp(in lines: [[StyledCharacter]]) -> [ANSIRGB]? {
+        for line in lines {
+            let plain = ANSIStyleScanner.plainText(of: line)
+            guard plain.contains("Less"), plain.contains("More") else { continue }
+            let ramp = line.compactMap { character -> ANSIRGB? in
+                guard cellGlyphs.contains(character.character) else { return nil }
+                return character.color
+            }
+            return Set(ramp).count >= 4 ? ramp : nil
         }
-        guard hasCell else { return nil }
+        return nil
+    }
 
-        var cells: [Int] = []
-        for ch in body {
-            if ch.isWhitespace { continue }
-            if let level = blockLevels[ch] {
-                cells.append(level)
-            } else if !ch.isLetter && !ch.isNumber {
-                // Explicit empty-cell filler ("·", "-", "0").
-                cells.append(0)
+    /// Extracts one intensity level per week column from a heatmap row.
+    ///
+    /// Whitespace is a separator, not a cell. Any glyph outside the heatmap
+    /// alphabet is ignored — the CLI paints the row label too, and box borders
+    /// must not be counted as columns. Rows are padded with empty cells on the
+    /// right so all 7 rows align to the same column count.
+    static func intensityCells(of line: [StyledCharacter], ramp: [ANSIRGB]?) -> [Int]? {
+        var cells: [StyledCharacter] = []
+        for character in line {
+            if character.character.isWhitespace { continue }
+            if cellGlyphs.contains(character.character)
+                || emptyFillers.contains(character.character) {
+                cells.append(character)
             }
         }
-        return cells.isEmpty ? nil : cells
+        guard !cells.isEmpty else { return nil }
+        return cells.map { level(for: $0, ramp: ramp) }
+    }
+
+    /// Level 0...4 for one cell. Colour wins when the ramp is known: the CLI
+    /// uses a single block glyph for every non-empty day.
+    static func level(for cell: StyledCharacter, ramp: [ANSIRGB]?) -> Int {
+        if let ramp, ramp.count >= 2, let color = cell.color {
+            var bestIndex = 0
+            var bestDistance = Int.max
+            for (index, entry) in ramp.enumerated() {
+                let distance = color.distanceSquared(to: entry)
+                if distance < bestDistance {
+                    bestDistance = distance
+                    bestIndex = index
+                }
+            }
+            // Normalize a ramp of N swatches onto the 0...4 model.
+            let span = Double(ramp.count - 1)
+            return Int((Double(bestIndex) / span * 4).rounded())
+        }
+        // No colour to go on: the legacy glyph ladder, where anything that
+        // isn't a block is an empty cell.
+        return blockLevels[cell.character] ?? 0
     }
 }

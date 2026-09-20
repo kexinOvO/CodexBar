@@ -17,6 +17,11 @@ struct QuotaCardView: View {
     let percent: Double?
     let detail: String?
     let warningLevel: WarningLevel
+    /// Custom theme accent (`ThemeColorMode.custom`); `nil` = default mode,
+    /// where every color stays exactly as it was before theming existed.
+    var themeAccent: Color? = nil
+
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -28,7 +33,7 @@ struct QuotaCardView: View {
                 Text(percentText)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundStyle(tintColor)
+                    .foregroundStyle(percentColor)
             }
 
             ProgressBar(fraction: percent.map { $0 / 100 },
@@ -40,21 +45,11 @@ struct QuotaCardView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.background)
-                .shadow(color: .black.opacity(0.06), radius: 1, y: 1)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(.separator.opacity(0.5), lineWidth: 1)
-        )
         .overlay(alignment: .topTrailing) {
             if warningLevel == .critical {
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(criticalIconColor)
                     .padding(8)
                     .help("Remaining quota is critically low")
             }
@@ -70,12 +65,50 @@ struct QuotaCardView: View {
         return String(localized: "\(value) remaining")
     }
 
+    /// Default mode: the historical multi-hue palette (accent / orange / red),
+    /// byte-for-byte identical to pre-theming behavior. Custom mode: one hue,
+    /// states separated purely by brightness (see `ThemeColor.shaded`) —
+    /// normal = the full custom color, warning/critical = deeper (light
+    /// background) or brighter (dark background) steps of the same hue.
     private var tintColor: Color {
-        switch warningLevel {
-        case .normal: return .accentColor
-        case .warning: return .orange
-        case .critical: return .red
+        guard let accent = themeAccent else {
+            switch warningLevel {
+            case .normal: return .accentColor
+            case .warning: return .orange
+            case .critical: return .red
+            }
         }
+        let dark = colorScheme == .dark
+        switch warningLevel {
+        case .normal: return accent
+        case .warning: return ThemeColor.shaded(accent, severity: 0.45, dark: dark)
+        case .critical: return ThemeColor.shaded(accent, severity: 1, dark: dark)
+        }
+    }
+
+    /// The "remaining" percent readout. Custom mode adopts the same
+    /// treatment as the popover header icons (`PopoverRootView.headerIconColor`):
+    /// the raw accent sits too close to the popover material, so the normal
+    /// state is pushed to the far end of the brightness ladder — much
+    /// darker than the theme hue on light, much brighter on dark. Warning /
+    /// critical keep their ladder steps so the severity ramp stays
+    /// distinguishable in text. Default mode is untouched: the system
+    /// accent / orange / red are readable as-is.
+    private var percentColor: Color {
+        guard let accent = themeAccent else { return tintColor }
+        switch warningLevel {
+        case .normal:
+            return ThemeColor.shaded(accent, severity: 1, dark: colorScheme == .dark)
+        case .warning, .critical:
+            return tintColor
+        }
+    }
+
+    /// The critical overlay icon. Default mode keeps its historical orange;
+    /// custom mode follows the custom-hue critical step.
+    private var criticalIconColor: Color {
+        themeAccent.map { ThemeColor.shaded($0, severity: 1, dark: colorScheme == .dark) }
+            ?? .orange
     }
 }
 

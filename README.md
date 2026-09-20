@@ -65,14 +65,33 @@ xcodebuild -project CodexBar.xcodeproj -scheme CodexBar test
 ## 功能
 
 - **右键菜单**：右键（或 ⌃+左键）点菜单栏图标弹出原生 NSMenu —— 立即刷新（⌘R）/ 设置（⌘,）/ 退出 CodexBar（⌘Q）；左键仍是 Popover，菜单只在右键那一瞬间挂到 `NSStatusItem` 上、弹出后立刻摘掉，所以两种点击互不干扰；正在刷新时「立即刷新」自动置灰
-- **额度卡片**：5h / Weekly 剩余百分比 + 进度条 + 重置时间；<10% 橙色警示、<5% 红色警告；单侧解析失败显示 Unavailable 不影响整体
-- **12 个月热力图**：GitHub 风格，5 级强度（无活动 + 4 级），hover 显示日期与数据，系统色 + 透明度区分强度，自动适配深浅色
+- **额度区块**：5h / Weekly 剩余百分比 + 进度条 + 重置时间；无卡片背景，文字与进度条直接铺在 Popover 内容区（与外层 16pt 边距对齐，和其它区块视觉一致）；<10% 橙色警示、<5% 红色警告 + 右上角三角图标；单侧解析失败显示 Unavailable 不影响整体。**显示模式**（设置 › 外观 › 额度）可选 `简单` / `完整`：简单模式只留百分比与进度条，隐藏重置时间（含倒计时、绝对日期与「即将重置」），完整模式为默认
+- **Popover 宽度**：200–480 pt 滑块可调（设置 › 外观 › 弹窗，步进 10 pt，默认 370）；读侧钳制，手改 settings.json 不会出现不可用的宽度；热力图格子尺寸随内容宽度联动重算
+- **Token 活动热力图**：GitHub 风格，范围 6–10 个月可调（设置 › 外观 › 热力图），5 级强度（无活动 + 4 级），系统色 + 透明度区分强度，自动适配深浅色；无月份标签行（格子按周分列，hover 给出准确日期）；hover 提示只显示日期 + Token 数（无 Token 数但有活动的格子仅显示日期——强度已由格子深浅表达，不再重复文字；完全无活动的格子显示「无活动」）
 - **概览统计**：Lifetime / Peak / Streak / Longest task，单位格式化（1K / 1M / 71.9M / 27 min / 4 days）
 - **自动刷新**：status 每 5 分钟、usage 每 30 分钟（可调）；启动即显示缓存再后台刷新；打开 Popover 时 status 超 2 分钟 / usage 超 10 分钟立即刷新；同类刷新防并发；失败保留旧缓存
 - **低额度通知**：Weekly <10% / <5%、5h <10%，各自可开关；同一周期每阈值只提醒一次，恢复后重新武装；权限懒请求
 - **菜单栏模式**：Icon only / Weekly % / 5h+Weekly %；数据不可用时只显示图标
 - **开机启动**：SMAppService，开关与系统注册状态实时同步
-- **设置页**：General / Refresh / Menu Bar / Notifications / Appearance（System-Light-Dark）/ CLI（路径检测、版本、上次查询、连接状态）。CLI 路径栏：回车即校验并保存；输入框非空时「检测」**只**校验你填的那一条（不会偷偷换成别的安装），失败保留输入并给红色提示；输入框为空时「检测」扫描全机；npm wrapper 被解析成原生二进制时额外显示「实际调用的可执行文件」；关闭窗口再打开会把探测结果自动填回输入框
+- **设置页（侧边栏分栏）**：窗口用 SwiftUI 的 `Window` scene（id `settings`，单实例，重复 `openWindow` 只是把已有窗口提到最前）承载一个 `NavigationSplitView`——左侧一级导航列出 3 个分类，右侧只渲染当前分类的分组 `Form`，互不串页；当前页名以左对齐工具栏标题的形态显示在内容区上方（macOS 26+ 新设计的标准偏好窗长相，与主流原生 App 的设置窗一致）：
+
+  | 一级（侧边栏） | 右侧分组 |
+  | --- | --- |
+  | General | Startup（登录时打开）/ Refresh（Status / Activity 刷新间隔）/ Notifications（低额度阈值） |
+  | Appearance | 配色（System-Light-Dark）/ 主题色（Default-Custom，Custom 时显示调色盘）/ Menu Bar / Quota / Popover（宽度滑块）/ Heatmap（含「用量统计」开关：是否显示热力图下方的 Lifetime / Peak / Streak / Longest task 摘要行） |
+  | CLI | CLI 路径 / Diagnostics（版本、上次查询、连接状态） |
+
+  一级分类按「一个话题一页」划分，而不是一个设置一页：配色、菜单栏显示内容、额度显示模式、热力图范围都只决定**界面上显示什么**，所以合并进 `Appearance`；登录时打开、两个刷新间隔与低额度阈值提醒都是「不看它的时候它自己怎么跑」（行为/时序/报警），所以合并进 `General`；CLI 是「它到底连的是哪个 codex」。配色行不带行标签（放在页内第一节，页名即标签，与 系统设置 › 外观 一致）。
+
+  **主题色**：`ThemeColorMode`（Default / Custom）+ `themeColorHex`（`#RRGGBB`，存 `settings.json`）。Default 与历史行为逐字节一致（系统强调色 + 橙/红告警多色相调色板）；Custom 切到单色相后，用量状态与活动等级改用**明度阶梯**区分（`ThemeColor.shaded`，HSB 只动亮度）：浅色背景越严重越深、深色背景越严重越亮（各自唯一可读的方向）——额度 warning = severity 0.45、critical = 1.0，热力图 1–4 级 = 0.25/0.50/0.75/1.0，0 级保持中性灰。Custom 时 Popover 根部整体 `.tint`，控件强调色一并跟随；hex 解析失败安全回落 Default 调色板。首次切到 Custom 用 `#0A84FF` 播种取色盘。
+
+  窗口完全按 SwiftUI 的标准做法搭，**不自己建窗口、不画任何背景 / 描边 / 阴影 / 玻璃**：`Window` scene（`.defaultLaunchBehavior(.suppressed)` 保证菜单栏 App 启动时不自动弹窗）+ `NavigationSplitView`（`List(selection:)` 侧边栏 + `.navigationSplitViewColumnWidth`）+ `Form(.grouped)` + `Section` + 原生 `Toggle` / `Picker` / `Slider` / `TextField` / `LabeledContent`。侧边栏材质通到窗口顶部、红绿灯覆盖在侧边栏上、左侧栏折叠按钮、玻璃与滚动边缘效果、页名标题，全部由系统决定；窗口可缩放（最小 620×420，开窗 700×560，`Appearance` 是最长的一页，超出时按系统惯例滚动）。用 `LabeledContent` 而非 `HStack { Text; Spacer; … }`，所以自定义行与 `Picker` 行的标签 / 数值天然对齐。
+
+  > 历史：这一页先后用过 `NSWindow` 自建窗、系统 `Settings` scene（`TabView` Tab）两种容器。`Settings` scene 在 macOS 27 上把页名渲染在标题栏**居中**，与原生 App 设置窗（页名在内容区左上）不一致；`NavigationSplitView` 放进 `Settings` scene 又会在 macOS 27 把内容顶进标题栏。最终落在 `Window` scene + `NavigationSplitView`：形态与原生偏好窗一致，`Settings` scene 反而拿不到这个布局。
+
+  打开方式两条路都走 `openWindow(id:)`：Popover 里的齿轮是 `Button` + `@Environment(\.openWindow)`；右键菜单的「设置」在 AppKit 侧直接调 `EnvironmentValues().openWindow(id:)`（macOS 14 起 `showSettingsWindow:` 选择器已失效 —— 它仍然返回 `true`，但什么都不做，是个坑）。开窗后补一刀 `makeKeyAndOrderFront`，否则 accessory App 的窗口可能开在当前 App 后面。
+
+  偏好仍存在 `settings.json`（`AppSettings`），因为它们的变更要驱动副作用（刷新定时器、App 外观、通知重新武装）；`@AppStorage` 只用在纯视图状态上 —— 记住上次打开的页面（`Settings.selectedPane`），下次开窗回到同一页。CLI 路径栏：回车即校验并保存；输入框非空时「检测」**只**校验你填的那一条（不会偷偷换成别的安装），失败保留输入并给红色提示；输入框为空时「检测」扫描全机；npm wrapper 被解析成原生二进制时额外显示「实际调用的可执行文件」；关闭窗口再打开会把探测结果自动填回输入框
 - **错误处理**：CLI 未安装、未登录、启动失败、解析失败、超时、缓存损坏、通知权限被拒、登录项注册失败 —— Popover 显示友好错误与缓存数据时间，单次异常不会导致崩溃
 
 ## 本地化
@@ -88,7 +107,7 @@ xcodebuild -project CodexBar.xcodeproj -scheme CodexBar test
 | 韩语 | `ko` | |
 | 德语 | `de` | |
 
-词条集中在 `CodexBar/Localizable.xcstrings`（String Catalog，97 条），五种目标语言均为手写翻译，术语对齐各自语种 macOS 系统设置的原生措辞（例如 `Launch at Login` → `登录时打开` / `登入時打開` / `ログイン時に開く` / `로그인 시 열기` / `Bei Anmeldung öffnen`；`System Settings › General › Login Items` 也按各语种实际菜单名书写）。
+词条集中在 `CodexBar/Localizable.xcstrings`（String Catalog，117 条），五种目标语言均为手写翻译，术语对齐各自语种 macOS 系统设置的原生措辞（例如 `Launch at Login` → `登录时打开` / `登入時打開` / `ログイン時に開く` / `로그인 시 열기` / `Bei Anmeldung öffnen`；`System Settings › General › Login Items` 也按各语种实际菜单名书写）。
 
 ### 实现要点
 

@@ -10,6 +10,14 @@ struct TokenActivitySection: View {
     let usage: CodexUsage?
     /// Months the heatmap covers (6...10, from Settings).
     var months: Int = AppSettings.defaultHeatmapMonths
+    /// Width available to this section inside the popover (panel width minus
+    /// padding, from Settings). Defaults to the static popover geometry so
+    /// previews/snapshots render at the historical size.
+    var contentWidth: CGFloat = PopoverMetrics.contentWidth
+    /// Custom theme accent (`nil` = default mode, system accent).
+    var themeAccent: Color? = nil
+    /// Whether the lifetime/peak/streak/longest-task row is shown (from Settings).
+    var showsStats: Bool = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -18,7 +26,10 @@ struct TokenActivitySection: View {
                 .foregroundStyle(.secondary)
 
             if let usage, !usage.dailyActivity.isEmpty {
-                HeatmapView(activities: usage.dailyActivity, months: months)
+                HeatmapView(activities: usage.dailyActivity,
+                            months: months,
+                            contentWidth: contentWidth,
+                            themeAccent: themeAccent)
             } else {
                 Text("No activity data yet — the CLI didn't return usage details.")
                     .font(.caption)
@@ -27,7 +38,9 @@ struct TokenActivitySection: View {
                     .padding(.vertical, 6)
             }
 
-            StatsGridView(usage: usage)
+            if showsStats {
+                StatsGridView(usage: usage)
+            }
         }
     }
 }
@@ -38,16 +51,23 @@ struct TokenActivitySection: View {
 /// (6...10 months, see `AppSettings.heatmapMonths`).
 /// Uses only system colors; intensity via opacity of the accent color.
 /// The grid always spans the full popover content width: the cell size is
-/// derived from the column count, and month labels sit at exact column
-/// offsets so they never drift out of alignment.
+/// derived from the column count. No month label row — the grid starts right
+/// at the top edge of the section.
 struct HeatmapView: View {
     let activities: [DailyActivity]
     /// Months of history displayed (6...10, from Settings). Values outside
     /// the supported range are clamped.
     var months: Int = AppSettings.defaultHeatmapMonths
+    /// Full heatmap row width (popover content width, from Settings).
+    /// Defaults to the static popover geometry for previews/snapshots.
+    var contentWidth: CGFloat = PopoverMetrics.contentWidth
+    /// Custom theme accent (`nil` = default mode, system accent). In custom
+    /// mode the 5-tier intensity ramp is expressed as brightness steps of the
+    /// single hue instead of accent-color opacities.
+    var themeAccent: Color? = nil
 
-    /// Full heatmap row width, from the shared popover metrics.
-    private static let contentWidth: CGFloat = PopoverMetrics.contentWidth
+    @Environment(\.colorScheme) private var colorScheme
+
     private let spacing: CGFloat = 1.2
 
     /// Gregorian weeks starting Sunday — shared by the window maths and the
@@ -62,38 +82,15 @@ struct HeatmapView: View {
         let window = Self.window(months: months)
         let items = activities.filter { $0.date >= window.start }
         let columns = Self.weekColumns(from: window.start, to: window.end)
-        let cell = Self.cellSize(columns: columns, spacing: spacing, width: Self.contentWidth)
+        let cell = Self.cellSize(columns: columns, spacing: spacing, width: contentWidth)
 
-        VStack(alignment: .leading, spacing: 4) {
-            monthLabels(windowStart: window.start, months: months, columns: columns,
-                        cellSize: cell)
-            HeatmapGrid(activities: items,
-                        columns: columns,
-                        windowStart: window.start,
-                        cellSize: cell,
-                        spacing: spacing)
-        }
-    }
-
-    /// Month names positioned at their week-column x offsets. Ticks come from
-    /// the calendar window (not from the data) so every month in range is
-    /// labelled even when it had no activity.
-    private func monthLabels(windowStart: Date, months: Int, columns: Int,
-                             cellSize: CGFloat) -> some View {
-        let ticks = Self.monthTicks(windowStart: windowStart, months: months)
-        let pitch = cellSize + spacing
-        let labelWidth = cellSize * 4
-        return ZStack(alignment: .topLeading) {
-            ForEach(ticks, id: \.column) { tick in
-                Text(tick.name)
-                    .font(.system(size: 8))
-                    .foregroundStyle(.secondary)
-                    .frame(width: labelWidth, alignment: .leading)
-                    .offset(x: min(CGFloat(tick.column) * pitch,
-                                   Self.contentWidth - labelWidth))
-            }
-        }
-        .frame(height: 10)
+        HeatmapGrid(activities: items,
+                    columns: columns,
+                    windowStart: window.start,
+                    cellSize: cell,
+                    spacing: spacing,
+                    themeAccent: themeAccent,
+                    dark: colorScheme == .dark)
     }
 
     // MARK: - Window maths
@@ -121,43 +118,14 @@ struct HeatmapView: View {
         return min(53, max(1, weeks + 1))
     }
 
-    /// One label per calendar month inside the window, at the column where the
-    /// month becomes visible.
-    static func monthTicks(windowStart: Date,
-                           months: Int,
-                           now: Date = Date()) -> [(column: Int, name: String)] {
-        let calendar = weekCalendar
-        let end = windowEnd(now: now)
-        let formatter = DateFormatter()
-        // Localized month abbreviation (e.g. "Sep", "9月", "Sept.").
-        formatter.setLocalizedDateFormatFromTemplate("MMM")
-
-        var ticks: [(column: Int, name: String)] = []
-        var lastColumn = -99
-        var cursor = calendar.dateInterval(of: .month, for: windowStart)?.start ?? windowStart
-        while cursor <= end, ticks.count <= months {
-            let firstVisible = max(cursor, windowStart)
-            let week = calendar.dateComponents([.weekOfYear],
-                                               from: windowStart,
-                                               to: firstVisible).weekOfYear ?? 0
-            // Skip when the previous month only owned this same column (e.g. a
-            // window starting on the 30th).
-            if week != lastColumn {
-                lastColumn = week
-                ticks.append((week, formatter.string(from: firstVisible)))
-            }
-            guard let next = calendar.date(byAdding: .month, value: 1, to: cursor) else { break }
-            cursor = next
-        }
-        return Array(ticks.prefix(53))
-    }
-
     /// Cell edge length that makes `columns` cells fill the content width.
     static func cellSize(columns: Int, spacing: CGFloat, width: CGFloat) -> CGFloat {
         let cols = CGFloat(max(columns, 1))
         return (width - spacing * (cols - 1)) / cols
     }
 
+    /// Default mode: intensity via accent-color opacity (historical ramp,
+    /// unchanged). Custom mode: brightness steps of the custom hue.
     static func color(for level: Int) -> Color {
         switch level {
         case ...0: return Color.primary.opacity(0.08)
@@ -165,6 +133,18 @@ struct HeatmapView: View {
         case 2: return Color.accentColor.opacity(0.55)
         case 3: return Color.accentColor.opacity(0.80)
         default: return Color.accentColor
+        }
+    }
+
+    /// Brightness-severity of each intensity level in custom mode. Activity
+    /// grows with severity; `ThemeColor.shaded` maps that to darker steps on
+    /// a light background and brighter steps on a dark one.
+    static func heatSeverity(for level: Int) -> Double {
+        switch level {
+        case 1: return 0.25
+        case 2: return 0.50
+        case 3: return 0.75
+        default: return 1.0
         }
     }
 }
@@ -177,6 +157,10 @@ struct HeatmapGrid: View {
     let windowStart: Date
     let cellSize: CGFloat
     let spacing: CGFloat
+    /// Custom theme accent (`nil` = default mode, historical opacity ramp).
+    var themeAccent: Color? = nil
+    /// Resolved color scheme, so the brightness ladder points the right way.
+    var dark: Bool = false
 
     var body: some View {
         let grid = buildGrid()
@@ -189,7 +173,7 @@ struct HeatmapGrid: View {
                     ForEach(0..<columns, id: \.self) { col in
                         if let activity = grid[weekday][col] {
                             RoundedRectangle(cornerRadius: 1.5)
-                                .fill(HeatmapView.color(for: activity.intensity))
+                                .fill(fillColor(for: activity.intensity))
                                 .frame(width: cellSize, height: cellSize)
                                 .help(tooltip(for: activity, formatter: dateFormatter))
                         } else {
@@ -201,6 +185,14 @@ struct HeatmapGrid: View {
                 }
             }
         }
+    }
+
+    private func fillColor(for level: Int) -> Color {
+        guard let accent = themeAccent else { return HeatmapView.color(for: level) }
+        guard level > 0 else { return Color.primary.opacity(0.08) }
+        return ThemeColor.shaded(accent,
+                                 severity: HeatmapView.heatSeverity(for: level),
+                                 dark: dark)
     }
 
     private func buildGrid() -> [[DailyActivity?]] {
@@ -222,9 +214,9 @@ struct HeatmapGrid: View {
         var parts = [formatter.string(from: activity.date)]
         if let tokens = activity.tokenCount {
             parts.append(String(localized: "\(TokenFormatter.tokens(tokens)) tokens"))
-        } else if activity.intensity > 0 {
-            parts.append(String(localized: "activity level \(activity.intensity)"))
-        } else {
+        } else if activity.intensity == 0 {
+            // Days with activity but no token count fall through with the date
+            // alone — the square's own shade already conveys the level.
             parts.append(String(localized: "no activity"))
         }
         return parts.joined(separator: " · ")

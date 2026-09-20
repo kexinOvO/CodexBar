@@ -76,6 +76,28 @@ final class CacheStoreTests: XCTestCase {
         XCTAssertEqual(loaded, settings)
     }
 
+    func testMalformedSettingsFieldIsRecoveredInPlace() throws {
+        let store = makeStore()
+        let url = store.directory.appendingPathComponent("settings.json")
+        let json = """
+        {
+          "statusRefreshInterval": "bad",
+          "usageRefreshInterval": 900,
+          "menuBarDisplayMode": "weeklyPercent",
+          "appearance": "dark"
+        }
+        """
+        try Data(json.utf8).write(to: url)
+
+        let loaded = store.load(AppSettings.self, file: "settings.json")
+
+        XCTAssertEqual(loaded?.statusRefreshInterval, AppSettings.default.statusRefreshInterval)
+        XCTAssertEqual(loaded?.usageRefreshInterval, 900)
+        XCTAssertEqual(loaded?.menuBarDisplayMode, .weeklyPercent)
+        XCTAssertEqual(loaded?.appearance, .dark)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
+    }
+
     func testCorruptedCacheIsIgnoredAndRemoved() throws {
         let store = makeStore()
         store.save(AppSettings.default, file: "settings.json")

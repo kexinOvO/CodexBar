@@ -76,6 +76,39 @@ enum MenuBarDisplayMode: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// How much detail the quota blocks in the popover show.
+enum QuotaDisplayMode: String, Codable, CaseIterable, Identifiable {
+    /// Percentage + bar only — hides when each quota resets.
+    case simple
+    /// Percentage + bar + reset info.
+    case full
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .simple: return String(localized: "Simple")
+        case .full: return String(localized: "Full")
+        }
+    }
+}
+
+/// Where the app's accent color comes from: the system accent (default,
+/// identical to the historical behaviour) or a user-picked custom color.
+enum ThemeColorMode: String, Codable, CaseIterable, Identifiable {
+    case `default`
+    case custom
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .default: return String(localized: "Default")
+        case .custom: return String(localized: "Custom")
+        }
+    }
+}
+
 enum AppearanceMode: String, Codable, CaseIterable, Identifiable {
     case system
     case light
@@ -97,12 +130,32 @@ struct AppSettings: Codable, Equatable {
     var statusRefreshInterval: TimeInterval = 5 * 60
     var usageRefreshInterval: TimeInterval = 30 * 60
     var menuBarDisplayMode: MenuBarDisplayMode = .iconOnly
+
+    /// Detail level of the quota blocks inside the popover.
+    var quotaDisplayMode: QuotaDisplayMode = .full
+
     var appearance: AppearanceMode = .system
+
+    /// Accent source for the whole app (quota tints, heatmap, controls).
+    /// `.default` keeps every historical color untouched.
+    var themeColorMode: ThemeColorMode = .default
+
+    /// Custom accent as `#RRGGBB`; only meaningful when
+    /// `themeColorMode == .custom`.
+    var themeColorHex: String?
 
     /// How many months of history the token activity heatmap covers.
     /// Clamped to `heatmapMonthRange` on read so hand-edited settings.json
     /// can't push the grid outside the supported window.
     var heatmapMonths: Int = AppSettings.defaultHeatmapMonths
+
+    /// Width of the popover panel in points. Clamped to `popoverWidthRange`
+    /// on read so hand-edited settings.json can't produce an unusable panel.
+    var popoverWidth: Double = AppSettings.defaultPopoverWidth
+
+    /// Whether the lifetime/peak/streak/longest-task stats row under the
+    /// heatmap is shown in the popover.
+    var showUsageStats: Bool = true
 
     /// Slider bounds for `heatmapMonths`.
     static let heatmapMonthRange: ClosedRange<Double> = 6...10
@@ -113,6 +166,17 @@ struct AppSettings: Codable, Equatable {
         let lower = Int(Self.heatmapMonthRange.lowerBound)
         let upper = Int(Self.heatmapMonthRange.upperBound)
         return min(max(heatmapMonths, lower), upper)
+    }
+
+    /// Slider bounds + step for `popoverWidth` (rounded to 10 pt for a
+    /// calmer slider: 200, 210, … 480).
+    static let popoverWidthRange: ClosedRange<Double> = 200...480
+    static let defaultPopoverWidth = 370.0
+
+    /// `popoverWidth` clamped into the supported range.
+    var popoverWidthClamped: Double {
+        min(max(popoverWidth, Self.popoverWidthRange.lowerBound),
+            Self.popoverWidthRange.upperBound)
     }
 
     var notifyWeeklyBelow10: Bool = true
@@ -137,8 +201,13 @@ extension AppSettings {
         case statusRefreshInterval
         case usageRefreshInterval
         case menuBarDisplayMode
+        case quotaDisplayMode
         case appearance
+        case themeColorMode
+        case themeColorHex
         case heatmapMonths
+        case popoverWidth
+        case showUsageStats
         case notifyWeeklyBelow10
         case notifyWeeklyBelow5
         case notifyFiveHourBelow10
@@ -147,44 +216,76 @@ extension AppSettings {
         case cliTimeout
     }
 
-    /// Tolerant decoding: any key missing from an older settings.json falls
-    /// back to its default instead of failing the whole decode (CacheStore
-    /// deletes undecodable files, which would silently reset every setting).
+    /// Tolerant decoding: every key is decoded independently. A missing or
+    /// malformed value falls back to that field's default instead of failing
+    /// the whole decode (CacheStore treats a failed decode as a corrupt file
+    /// and removes it, which would otherwise reset every setting at once).
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Keys.self)
         let fallback = AppSettings()
-        statusRefreshInterval =
-            try container.decodeIfPresent(TimeInterval.self, forKey: .statusRefreshInterval)
-            ?? fallback.statusRefreshInterval
-        usageRefreshInterval =
-            try container.decodeIfPresent(TimeInterval.self, forKey: .usageRefreshInterval)
-            ?? fallback.usageRefreshInterval
-        menuBarDisplayMode =
-            try container.decodeIfPresent(MenuBarDisplayMode.self, forKey: .menuBarDisplayMode)
-            ?? fallback.menuBarDisplayMode
-        appearance =
-            try container.decodeIfPresent(AppearanceMode.self, forKey: .appearance)
-            ?? fallback.appearance
-        heatmapMonths =
-            try container.decodeIfPresent(Int.self, forKey: .heatmapMonths)
-            ?? fallback.heatmapMonths
-        notifyWeeklyBelow10 =
-            try container.decodeIfPresent(Bool.self, forKey: .notifyWeeklyBelow10)
-            ?? fallback.notifyWeeklyBelow10
-        notifyWeeklyBelow5 =
-            try container.decodeIfPresent(Bool.self, forKey: .notifyWeeklyBelow5)
-            ?? fallback.notifyWeeklyBelow5
-        notifyFiveHourBelow10 =
-            try container.decodeIfPresent(Bool.self, forKey: .notifyFiveHourBelow10)
-            ?? fallback.notifyFiveHourBelow10
-        codexPathOverride =
-            try container.decodeIfPresent(String.self, forKey: .codexPathOverride)
-        launchAtLogin =
-            try container.decodeIfPresent(Bool.self, forKey: .launchAtLogin)
-            ?? fallback.launchAtLogin
-        cliTimeout =
-            try container.decodeIfPresent(TimeInterval.self, forKey: .cliTimeout)
-            ?? fallback.cliTimeout
+
+        func decodeOrDefault<T: Decodable>(_ type: T.Type,
+                                            forKey key: Keys,
+                                            default value: T) -> T {
+            do {
+                return try container.decodeIfPresent(type, forKey: key) ?? value
+            } catch {
+                return value
+            }
+        }
+
+        func decodeOptional<T: Decodable>(_ type: T.Type, forKey key: Keys) -> T? {
+            do {
+                return try container.decodeIfPresent(type, forKey: key)
+            } catch {
+                return nil
+            }
+        }
+
+        statusRefreshInterval = decodeOrDefault(TimeInterval.self,
+                                                forKey: .statusRefreshInterval,
+                                                default: fallback.statusRefreshInterval)
+        usageRefreshInterval = decodeOrDefault(TimeInterval.self,
+                                               forKey: .usageRefreshInterval,
+                                               default: fallback.usageRefreshInterval)
+        menuBarDisplayMode = decodeOrDefault(MenuBarDisplayMode.self,
+                                             forKey: .menuBarDisplayMode,
+                                             default: fallback.menuBarDisplayMode)
+        quotaDisplayMode = decodeOrDefault(QuotaDisplayMode.self,
+                                           forKey: .quotaDisplayMode,
+                                           default: fallback.quotaDisplayMode)
+        appearance = decodeOrDefault(AppearanceMode.self,
+                                     forKey: .appearance,
+                                     default: fallback.appearance)
+        themeColorMode = decodeOrDefault(ThemeColorMode.self,
+                                         forKey: .themeColorMode,
+                                         default: fallback.themeColorMode)
+        themeColorHex = decodeOptional(String.self, forKey: .themeColorHex)
+        heatmapMonths = decodeOrDefault(Int.self,
+                                        forKey: .heatmapMonths,
+                                        default: fallback.heatmapMonths)
+        popoverWidth = decodeOrDefault(Double.self,
+                                       forKey: .popoverWidth,
+                                       default: fallback.popoverWidth)
+        showUsageStats = decodeOrDefault(Bool.self,
+                                         forKey: .showUsageStats,
+                                         default: fallback.showUsageStats)
+        notifyWeeklyBelow10 = decodeOrDefault(Bool.self,
+                                              forKey: .notifyWeeklyBelow10,
+                                              default: fallback.notifyWeeklyBelow10)
+        notifyWeeklyBelow5 = decodeOrDefault(Bool.self,
+                                             forKey: .notifyWeeklyBelow5,
+                                             default: fallback.notifyWeeklyBelow5)
+        notifyFiveHourBelow10 = decodeOrDefault(Bool.self,
+                                                 forKey: .notifyFiveHourBelow10,
+                                                 default: fallback.notifyFiveHourBelow10)
+        codexPathOverride = decodeOptional(String.self, forKey: .codexPathOverride)
+        launchAtLogin = decodeOrDefault(Bool.self,
+                                        forKey: .launchAtLogin,
+                                        default: fallback.launchAtLogin)
+        cliTimeout = decodeOrDefault(TimeInterval.self,
+                                     forKey: .cliTimeout,
+                                     default: fallback.cliTimeout)
     }
 }
 

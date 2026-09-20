@@ -14,17 +14,21 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
 
     private var statusItem: NSStatusItem?
     private let popover = NSPopover()
-    private var settingsWindow: NSWindow?
 
-    let model = AppModel()
+    let model: AppModel
 
     private var cancellables: Set<AnyCancellable> = []
+
+    init(model: AppModel) {
+        self.model = model
+        super.init()
+    }
 
     func install() {
         guard statusItem == nil else { return }
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = item.button {
-            button.image = NSImage(systemSymbolName: "circle.hexagongrid.fill",
+            button.image = NSImage(systemSymbolName: "arrowtriangle.down.circle.fill",
                                    accessibilityDescription: "CodexBar")
             button.image?.isTemplate = true
             button.target = self
@@ -53,14 +57,6 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
 
         model.onSettingsChanged = { [weak self] _ in
             self?.updateTitle()
-        }
-
-        NotificationCenter.default.addObserver(forName: .openCodexBarSettings,
-                                               object: nil,
-                                               queue: .main) { [weak self] _ in
-            MainActor.assumeIsolated {
-                self?.openSettings()
-            }
         }
 
         model.start()
@@ -156,20 +152,36 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
         NSApp.terminate(nil)
     }
 
+    /// Opens the settings window. The window belongs to the app's `Window`
+    /// scene (id `SettingsMetrics.windowID`), so we ask for it by id instead
+    /// of building one: repeated calls bring the existing window forward
+    /// rather than opening a second copy.
     @objc func openSettings() {
         popover.performClose(nil)
-        if settingsWindow == nil {
-            let window = NSWindow(contentViewController: NSHostingController(
-                rootView: SettingsView(model: model)))
-            window.title = String(localized: "CodexBar Settings")
-            window.styleMask = [.titled, .closable]
-            window.setContentSize(NSSize(width: 460, height: 560))
-            window.center()
-            window.isReleasedWhenClosed = false
-            settingsWindow = window
-        }
-        settingsWindow?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+
+        // Not `showSettingsWindow:` — macOS 14 removed it, and it is a trap:
+        // it still reports "handled" while quietly doing nothing. The SwiftUI
+        // open-window action below is the supported route (it is what
+        // `openWindow` calls inside views).
+        EnvironmentValues().openWindow(id: SettingsMetrics.windowID)
+
+        // An accessory app (no Dock icon) can't reliably get a window ordered
+        // in front of the current app, so front it ourselves once SwiftUI has
+        // put it on screen.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.frontSettingsWindow()
+        }
+    }
+
+    /// Brings the settings window forward. It is the app's only regular,
+    /// titled window — the popover and the menu are panels — so that is
+    /// enough to identify it without holding a reference to it.
+    private func frontSettingsWindow() {
+        let window = NSApp.windows.first {
+            $0.isVisible && $0.styleMask.contains(.titled) && !($0 is NSPanel)
+        }
+        window?.makeKeyAndOrderFront(nil)
     }
 
     // MARK: - Title
@@ -179,7 +191,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
         switch model.settings.menuBarDisplayMode {
         case .iconOnly:
             button.title = ""
-            button.image = NSImage(systemSymbolName: "circle.hexagongrid.fill",
+            button.image = NSImage(systemSymbolName: "arrowtriangle.down.circle.fill",
                                    accessibilityDescription: "CodexBar")
         case .weeklyPercent:
             button.image = NSImage(systemSymbolName: "circle.fill",

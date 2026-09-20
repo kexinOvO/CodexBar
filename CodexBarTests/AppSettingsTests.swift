@@ -34,6 +34,7 @@ final class AppSettingsTests: XCTestCase {
         XCTAssertEqual(decoded.statusRefreshInterval, 600)
         XCTAssertEqual(decoded.usageRefreshInterval, 1_800)
         XCTAssertEqual(decoded.menuBarDisplayMode, .weeklyPercent)
+        XCTAssertEqual(decoded.quotaDisplayMode, .full)
         XCTAssertEqual(decoded.appearance, .dark)
         XCTAssertFalse(decoded.notifyWeeklyBelow5)
         XCTAssertTrue(decoded.launchAtLogin)
@@ -46,6 +47,47 @@ final class AppSettingsTests: XCTestCase {
     func testEmptySettingsJSONDecodesToDefaults() throws {
         let decoded = try JSONDecoder().decode(AppSettings.self, from: Data("{}".utf8))
         XCTAssertEqual(decoded, AppSettings.default)
+    }
+
+    /// A single bad value must not discard unrelated preferences. This is
+    /// what happens when a newer build changes an enum or a hand-edited JSON
+    /// value has the wrong type.
+    func testMalformedFieldFallsBackWithoutResettingOtherFields() throws {
+        let json = """
+        {
+          "statusRefreshInterval": "not-a-number",
+          "usageRefreshInterval": 900,
+          "menuBarDisplayMode": "weeklyPercent",
+          "quotaDisplayMode": "unknown",
+          "appearance": "dark",
+          "themeColorMode": "custom",
+          "themeColorHex": "#FF00AA",
+          "heatmapMonths": 10,
+          "popoverWidth": "wide",
+          "showUsageStats": false,
+          "notifyWeeklyBelow10": false,
+          "notifyWeeklyBelow5": true,
+          "notifyFiveHourBelow10": false,
+          "launchAtLogin": true
+        }
+        """
+
+        let decoded = try JSONDecoder().decode(AppSettings.self, from: Data(json.utf8))
+
+        XCTAssertEqual(decoded.statusRefreshInterval, AppSettings.default.statusRefreshInterval)
+        XCTAssertEqual(decoded.usageRefreshInterval, 900)
+        XCTAssertEqual(decoded.menuBarDisplayMode, .weeklyPercent)
+        XCTAssertEqual(decoded.quotaDisplayMode, .full)
+        XCTAssertEqual(decoded.appearance, .dark)
+        XCTAssertEqual(decoded.themeColorMode, .custom)
+        XCTAssertEqual(decoded.themeColorHex, "#FF00AA")
+        XCTAssertEqual(decoded.heatmapMonths, 10)
+        XCTAssertEqual(decoded.popoverWidth, AppSettings.default.popoverWidth)
+        XCTAssertFalse(decoded.showUsageStats)
+        XCTAssertFalse(decoded.notifyWeeklyBelow10)
+        XCTAssertTrue(decoded.notifyWeeklyBelow5)
+        XCTAssertFalse(decoded.notifyFiveHourBelow10)
+        XCTAssertTrue(decoded.launchAtLogin)
     }
 
     func testHeatmapMonthsClampedIntoSupportedRange() {
@@ -108,17 +150,5 @@ final class AppSettingsTests: XCTestCase {
         XCTAssertGreaterThan(sixCell, tenCell)
         XCTAssertEqual(sixCell * CGFloat(sixColumns) + spacing * CGFloat(sixColumns - 1),
                        width, accuracy: 0.001)
-    }
-
-    /// One label per calendar month in range, whatever the activity data says.
-    func testMonthTicksCoverTheWindow() {
-        let six = HeatmapView.window(months: 6, now: fixedNow)
-        let ticks = HeatmapView.monthTicks(windowStart: six.start, months: 6, now: fixedNow)
-        XCTAssertEqual(ticks.count, 7) // Mar…Sep: the window starts mid-March
-        XCTAssertEqual(ticks.first?.column, 0)
-        XCTAssertTrue(ticks.allSatisfy { $0.column >= 0 })
-        // Strictly increasing columns, so labels can never collide.
-        XCTAssertEqual(ticks.map(\.column), ticks.map(\.column).sorted())
-        XCTAssertEqual(Set(ticks.map(\.column)).count, ticks.count)
     }
 }

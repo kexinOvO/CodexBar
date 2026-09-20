@@ -5,7 +5,10 @@
 
 import SwiftUI
 
-/// Shared popover geometry so views can't drift out of sync.
+/// Shared popover geometry so views can't drift out of sync. `width` is the
+/// *default* panel width; the live value comes from `AppSettings.popoverWidth`
+/// (user-adjustable in Settings › Appearance) and flows through
+/// `PopoverRootView` into the sections below.
 enum PopoverMetrics {
     static let width: CGFloat = 370
     static let padding: CGFloat = 16
@@ -16,8 +19,16 @@ enum PopoverMetrics {
 /// Popover root: quota cards, heatmap, stats, footer with refresh/settings.
 struct PopoverRootView: View {
     @ObservedObject var model: AppModel
+    /// The settings window is a `Window` scene, so the gear opens it by id —
+    /// repeated taps front the existing window instead of stacking copies.
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
+        // User-adjustable panel width (Settings › Appearance › Popover);
+        // clamped on read so hand-edited settings.json stays usable.
+        let width = CGFloat(model.settings.popoverWidthClamped)
+
         VStack(alignment: .leading, spacing: 14) {
             header
 
@@ -37,21 +48,47 @@ struct PopoverRootView: View {
                 title: "5 hour limit",
                 percent: model.status?.fiveHourRemainingPercent,
                 detail: resetDetail(forFiveHour: true),
-                warningLevel: warningLevel(model.status?.fiveHourRemainingPercent))
+                warningLevel: warningLevel(model.status?.fiveHourRemainingPercent),
+                themeAccent: themeAccent)
 
             QuotaCardView(
                 title: "Weekly",
                 percent: model.status?.weeklyRemainingPercent,
                 detail: resetDetail(forFiveHour: false),
-                warningLevel: warningLevel(model.status?.weeklyRemainingPercent))
+                warningLevel: warningLevel(model.status?.weeklyRemainingPercent),
+                themeAccent: themeAccent)
 
             TokenActivitySection(usage: model.usage,
-                                 months: model.settings.heatmapMonthsClamped)
+                                 months: model.settings.heatmapMonthsClamped,
+                                 contentWidth: width - PopoverMetrics.padding * 2,
+                                 themeAccent: themeAccent,
+                                 showsStats: model.settings.showUsageStats)
 
             footer
         }
         .padding(PopoverMetrics.padding)
-        .frame(width: PopoverMetrics.width)
+        .frame(width: width)
+        // Custom theme: re-accent the popover's controls, too. `nil`
+        // (default mode) leaves the system accent untouched.
+        .tint(themeAccent)
+    }
+
+    /// Resolved custom accent, or `nil` in default mode (and when a
+    /// hand-edited settings.json carries an unparsable hex value — the
+    /// default palette is the safe fallback there).
+    private var themeAccent: Color? {
+        guard model.settings.themeColorMode == .custom else { return nil }
+        return model.settings.themeColorHex.flatMap(ThemeColor.color(fromHex:))
+    }
+
+    /// Header icon color. The raw accent is too close to the popover
+    /// material to read as a button (pale lavender on light, murky on
+    /// dark), so push it to the far end of the brightness ladder:
+    /// much **darker** than the theme hue in light mode, much
+    /// **brighter** in dark mode.
+    private var headerIconColor: Color {
+        let accent = themeAccent ?? Color.accentColor
+        return ThemeColor.shaded(accent, severity: 1, dark: colorScheme == .dark)
     }
 
     // MARK: - Pieces
@@ -69,14 +106,18 @@ struct PopoverRootView: View {
                 model.manualRefresh()
             } label: {
                 Image(systemName: "arrow.clockwise")
+                    .foregroundStyle(headerIconColor)
             }
             .buttonStyle(.borderless)
             .help("Refresh now")
 
+            // Opens the `Window` scene by id: it fronts the existing window
+            // instead of creating a second one.
             Button {
-                NotificationCenter.default.post(name: .openCodexBarSettings, object: nil)
+                openWindow(id: SettingsMetrics.windowID)
             } label: {
                 Image(systemName: "gearshape")
+                    .foregroundStyle(headerIconColor)
             }
             .buttonStyle(.borderless)
             .help("Settings")
@@ -104,6 +145,9 @@ struct PopoverRootView: View {
     }
 
     private func resetDetail(forFiveHour: Bool) -> String? {
+        // Simple mode shows percentage + bar only, so the whole reset line
+        // (absolute date, countdown and "imminent") is suppressed.
+        guard model.settings.quotaDisplayMode == .full else { return nil }
         let status = model.status
         if forFiveHour {
             if let date = status?.fiveHourResetAt {
@@ -140,10 +184,6 @@ struct PopoverRootView: View {
         if percent < 10 { return .warning }
         return .normal
     }
-}
-
-extension Notification.Name {
-    static let openCodexBarSettings = Notification.Name("openCodexBarSettings")
 }
 
 // MARK: - Banners
