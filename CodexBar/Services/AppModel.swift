@@ -9,7 +9,7 @@ import Combine
 
 /// Central observable model: owns settings, cached data, refresh scheduling,
 /// concurrency guards and the CLI executor. Everything UI-facing publishes
-/// on the main actor; CLI + parsing run off-main.
+/// on the main actor; app-server I/O + structured decoding run off-main.
 @MainActor
 final class AppModel: ObservableObject {
 
@@ -111,8 +111,8 @@ final class AppModel: ObservableObject {
 
     /// Re-runs CLI detection only. Used by the settings "Detect" button so a
     /// changed path takes effect immediately instead of on the next timer tick.
-    /// Deliberately lighter than `manualRefresh()` — the usage query drives the
-    /// TUI for minutes, which is far too slow for a settings interaction.
+    /// Deliberately lighter than `manualRefresh()` — account usage may perform
+    /// a backend read and is unnecessary for a path-detection interaction.
     func recheckCLI() {
         Task { await refreshStatusIfDue(maxAge: 0) }
     }
@@ -162,25 +162,23 @@ final class AppModel: ObservableObject {
             let timeout = settings.cliTimeout
             let workspace = cache.cliWorkspaceURL.path
             let result = try await Task.detached(priority: .utility) {
-                try await CodexCLI.fetchStatus(executablePath: codex.path,
-                                               workingDirectory: workspace,
-                                               timeout: timeout,
-                                               pathEntries: codex.pathEntries)
+                try await CodexAppServerCLI.fetchStatus(executablePath: codex.path,
+                                                        workingDirectory: workspace,
+                                                        timeout: timeout,
+                                                        pathEntries: codex.pathEntries)
             }.value
 
             if let version = result.versionLine { codexVersion = version }
-            if let statusRaw = result.statusRaw {
-                let parsed = StatusParser.parse(statusRaw)
-                if !parsed.isUnparsed {
-                    self.status = parsed
-                    cache.save(parsed, file: "status.json")
-                    cliState = .ready
-                    lastError = nil
-                    await notifications.evaluate(status: parsed, settings: settings)
-                } else if status == nil {
-                    lastError = .parseFailed("/status")
-                    cliState = .failing(String(localized: "unrecognized /status output"))
-                }
+            let parsed = result.status
+            if !parsed.isUnparsed {
+                self.status = parsed
+                cache.save(parsed, file: "status.json")
+                cliState = .ready
+                lastError = nil
+                await notifications.evaluate(status: parsed, settings: settings)
+            } else if status == nil {
+                lastError = .parseFailed("account/rateLimits/read")
+                cliState = .failing(String(localized: "unrecognized app-server rate limit response"))
             }
         } catch let error as CodexBarError {
             handle(error: error)
@@ -206,25 +204,26 @@ final class AppModel: ObservableObject {
                 cliState = .notFound
                 throw CodexBarError.codexNotFound
             }
+            codexVersion = codex.version
+
             let timeout = settings.cliTimeout
             let workspace = cache.cliWorkspaceURL.path
             let result = try await Task.detached(priority: .utility) {
-                try await CodexCLI.fetchUsage(executablePath: codex.path,
-                                              workingDirectory: workspace,
-                                              timeout: timeout,
-                                              pathEntries: codex.pathEntries)
+                try await CodexAppServerCLI.fetchUsage(executablePath: codex.path,
+                                                       workingDirectory: workspace,
+                                                       timeout: timeout,
+                                                       pathEntries: codex.pathEntries)
             }.value
             if let version = result.versionLine { codexVersion = version }
-            if let usageRaw = result.usageRaw {
-                let parsed = UsageParser.parse(usageRaw)
-                if !parsed.isUnparsed {
-                    self.usage = parsed
-                    cache.save(parsed, file: "usage.json")
-                    cliState = .ready
-                    lastError = nil
-                } else {
-                    lastError = .parseFailed("/usage daily")
-                }
+
+            let parsed = result.usage
+            if !parsed.isUnparsed {
+                self.usage = parsed
+                cache.save(parsed, file: "usage.json")
+                cliState = .ready
+                lastError = nil
+            } else {
+                lastError = .parseFailed("account/usage/read")
             }
         } catch let error as CodexBarError {
             handle(error: error)
