@@ -3,9 +3,10 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 BUILD_DIR="${BUILD_DIR:-$ROOT_DIR/build}"
+DERIVED_DATA_DIR="${DERIVED_DATA_DIR:-$BUILD_DIR/DerivedData}"
 CONFIGURATION="${CONFIGURATION:-Release}"
 APP_NAME="CodexBar"
-APP_PATH="$BUILD_DIR/Build/Products/$CONFIGURATION/$APP_NAME.app"
+APP_PATH="$DERIVED_DATA_DIR/Build/Products/$CONFIGURATION/$APP_NAME.app"
 OUTPUT_DIR="${OUTPUT_DIR:-$ROOT_DIR/dist}"
 
 rm -rf "$OUTPUT_DIR"
@@ -16,7 +17,7 @@ if [[ "${SKIP_BUILD:-0}" != "1" ]]; then
     -project "$ROOT_DIR/CodexBar.xcodeproj" \
     -scheme "$APP_NAME" \
     -configuration "$CONFIGURATION" \
-    -derivedDataPath "$BUILD_DIR/DerivedData" \
+    -derivedDataPath "$DERIVED_DATA_DIR" \
     -destination 'generic/platform=macOS' \
     build \
     CODE_SIGNING_ALLOWED="${CODE_SIGNING_ALLOWED:-NO}" \
