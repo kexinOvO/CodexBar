@@ -11,7 +11,7 @@ CodexBar 只与本机已经安装并登录的 Codex CLI 协作：应用启动 `c
 ## 当前状态
 
 - 原生 SwiftUI + AppKit 菜单栏应用，无 Electron / Tauri、无第三方运行时依赖
-- 当前工程版本：`1.1`
+- 当前工程版本：`2.0`
 - 当前 Xcode 工程与 CI 使用 **Xcode 27**
 - 当前 `MACOSX_DEPLOYMENT_TARGET = 27.0`
 - 数据层已经迁移到 `codex app-server`
