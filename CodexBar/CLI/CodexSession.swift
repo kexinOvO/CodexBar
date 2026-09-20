@@ -326,12 +326,21 @@ enum CodexCLI {
             if attempt > 0 {
                 session.send("\u{1B}")
                 try? await Task.sleep(nanoseconds: 800_000_000)
+                await clearComposer(session)
             }
             await pasteAndSubmit(session, command: "/status")
-            found = await session.waitFor(pattern: "5h limit",
-                                          quietSeconds: 6,
-                                          timeout: min(45, timeout))
-            if found { break }
+            let (hit, leaked) = await waitForCardOrLeak(session,
+                                                        card: "5h limit",
+                                                        timeout: min(45, timeout))
+            // Guard against the retry failure mode observed with codex-cli
+            // 0.155.1: if Enter was swallowed and the re-paste concatenated
+            // ("/status/status"), the TUI submits it as a *chat prompt* to
+            // the model — burning tokens and leaving a junk task in the
+            // linked ChatGPT account. The interrupt hint only appears while
+            // a model turn is running, i.e. the command leaked. Bail out
+            // immediately instead of waiting out the clock.
+            if leaked { break }
+            if hit { found = true; break }
         }
         let raw = session.snapshot()
         return StatusResult(statusRaw: found ? raw : raw,
@@ -347,6 +356,38 @@ enum CodexCLI {
         session.send("\u{1B}[200~\(command)\u{1B}[201~")
         try? await Task.sleep(nanoseconds: 800_000_000)
         session.send("\r")
+    }
+
+    /// Wipes residual composer text with repeated backspaces. ESC alone only
+    /// closes popups — it does NOT clear the input line, so a re-paste after
+    /// a swallowed Enter would otherwise concatenate with the leftover text
+    /// ("/status" + "/status") and go out as a chat prompt to the model.
+    /// Extra backspaces on an already-empty composer are harmless no-ops.
+    private static func clearComposer(_ session: CodexSession) async {
+        session.send(String(repeating: "\u{7F}", count: 80))
+        try? await Task.sleep(nanoseconds: 400_000_000)
+    }
+
+    /// Polls cleaned output for either the expected card marker or the TUI's
+    /// task-running hint ("Esc to interrupt"). The hint is only rendered
+    /// while a *model turn* is in flight, which for these local slash
+    /// commands means the submission leaked as a chat prompt. Returns
+    /// `(cardFound, promptLeaked)`; a leak short-circuits the retry ladder.
+    private static func waitForCardOrLeak(_ session: CodexSession,
+                                          card: String,
+                                          timeout: TimeInterval) async -> (Bool, Bool) {
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline {
+            let text = ANSITextCleaner.clean(session.snapshot())
+            if text.range(of: card, options: .caseInsensitive) != nil {
+                return (true, false)
+            }
+            if text.range(of: "Esc to interrupt", options: .caseInsensitive) != nil {
+                return (false, true)
+            }
+            try? await Task.sleep(nanoseconds: 500_000_000)
+        }
+        return (false, false)
     }
 
     static func fetchUsage(executablePath: String,
@@ -371,15 +412,23 @@ enum CodexCLI {
             case 1:
                 session.send("\r")
             default:
+                // Same guard as fetchStatus: wipe residual composer text so
+                // the typed "/usage" can't concatenate with leftovers.
+                session.send("\u{1B}")
+                try? await Task.sleep(nanoseconds: 400_000_000)
+                await clearComposer(session)
                 session.send("/usage\r")
                 if await session.waitFor(pattern: "Show usage", quietSeconds: 8, timeout: 30) {
                     try? await Task.sleep(nanoseconds: 500_000_000)
                     session.send("\r")
                 }
             }
-            found = await session.waitFor(pattern: "Token activity",
-                                          quietSeconds: 40,
-                                          timeout: waitTimeout / 3)
+            // Accidental chat-prompt leak detector (see fetchStatus).
+            let (hit, leaked) = await waitForCardOrLeak(session,
+                                                        card: "Token activity",
+                                                        timeout: waitTimeout / 3)
+            if leaked { break }
+            found = hit
             if found {
                 // The header can appear in a "Token activity   Loading..."
                 // frame while the heatmap is still being fetched from the

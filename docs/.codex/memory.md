@@ -12,5 +12,6 @@ Last reviewed: 2026-09-20
   its actual state into `AppSettings.launchAtLogin`; the JSON field is not a
   substitute for querying `SMAppService`.
 - Regression coverage for persistence lives in
-  `CodexBarTests/AppSettingsTests.swift` and
-  `CodexBarTests/CacheStoreTests.swift`.
+  `CodexBarTests/AppSettingsTests.swift` and `CodexBarTests/CacheStoreTests.swift`.
+- Release DMGs intentionally use the simplest Finder layout: the app bundle and an `Applications` symlink, with no custom background or window styling.
+- CI builds the unsigned artifact by default; signing and notarization can be added later without changing the DMG layout.

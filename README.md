@@ -63,6 +63,16 @@ xcodebuild -project CodexBar.xcodeproj -scheme CodexBar test
 # 或直接用 Xcode 打开 CodexBar.xcodeproj，⌘R 运行
 ```
 
+### 制作发布 DMG
+
+DMG 为标准拖拽安装布局，包含 `CodexBar.app` 和 `Applications` 替身：
+
+```bash
+./scripts/create-dmg.sh
+```
+
+将版本 tag 推送到 GitHub（例如 `v1.1`）后，GitHub Actions 会自动构建并把 DMG 附加到对应 Release。
+
 ### 构建配置：**不要**打开 App Sandbox
 
 `ENABLE_APP_SANDBOX` 必须保持 `NO`（Debug / Release 两套配置都是）。App Sandbox 会禁止 `posix_spawn` 容器外的可执行文件，也就是彻底堵死「驱动本机 Codex CLI」这条路——即使路径填对了也会失败。Release 配置还需要 `INFOPLIST_KEY_LSUIElement = YES`（否则分发包会在 Dock 里多出一个图标）和正确的 `PRODUCT_BUNDLE_IDENTIFIER`。
@@ -137,6 +147,7 @@ grep -ho '"key": "[^"]*"' "$D"/*.stringsdata | sort -u   # 源码侧需本地化
 ## 已知限制
 
 - CLI 的 TUI 在初始化/重绘期间可能吞掉键盘输入与回车，已通过就绪沉降期 + 多级重试缓解，但极端情况下 usage 仍可能拉取失败；此时 App 显示 "No activity data yet"（额度卡片不受影响，`/status` 正常）
+- **提交泄漏防护**（2026-09-20）：TUI 吞掉回车后若重试时未清空输入框，两次粘贴会拼成 `/status/status` —— 不是合法 slash 命令，会被当成**普通聊天消息发给模型**，白烧 token 并在关联的 ChatGPT 账号里留下一條垃圾任务（同步显示在 ChatGPT 桌面端侧栏）。修复：重试前用退格键清空输入框（ESC 只关弹窗不清行）；提交后轮询输出，若出现 "Esc to interrupt"（模型回合运行中才会显示的提示）说明命令泄漏，立即中止不再等待。`/status` 与 `/usage` 两条路径均已覆盖
 - 若出现 "Do you trust the contents of this directory?" 且用户未确认，App 会自动按回车选择默认信任项；如不希望信任任何目录，请勿使用本工具
 - CLI 未来改版（字段更名、布局变化）可能导致个别字段 Unavailable，解析失败为软降级而非崩溃
 - 通知权限被系统拒绝后 App 无法再次弹窗，需到系统设置开启
