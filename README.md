@@ -4,7 +4,12 @@
 
 数据 **只通过本机已安装并登录的 Codex CLI** 获取（驱动其交互式 `/status` 与 `/usage daily` 命令），不使用 ChatGPT Cookie，不调用任何 OpenAI 未公开接口。
 
-> 截图：*（预留位置 —— 打开 App 后点菜单栏图标即可截图 Popover / 设置窗口）*
+### 界面示例
+
+![CodexBar Popover 示例](docs/images/codexbar-popover.png)
+
+上图展示了 CodexBar 的菜单栏 Popover：5 小时额度、每周额度、重置时间、
+Token 活动热力图，以及当前账户套餐和最近更新时间。
 
 ## 系统要求
 
