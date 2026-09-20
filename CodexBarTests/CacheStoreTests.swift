@@ -24,12 +24,17 @@ final class CacheStoreTests: XCTestCase {
         CacheStore(directory: tempDir.appendingPathComponent("store", isDirectory: true))
     }
 
+    private func permissions(at url: URL) throws -> Int {
+        let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        return attributes[.posixPermissions] as? Int ?? -1
+    }
+
     func testStatusRoundTrip() throws {
         let store = makeStore()
         let original = CodexStatus(
             model: "gpt-5.6-terra (reasoning medium, summaries auto)",
             reasoningEffort: "medium",
-            accountEmail: "kexin_0@outlook.com",
+            accountEmail: "test@example.com",
             plan: "Plus",
             fiveHourRemainingPercent: 70,
             fiveHourResetAt: Date(timeIntervalSince1970: 1_789_800_000),
@@ -121,5 +126,17 @@ final class CacheStoreTests: XCTestCase {
         let url = store.directory.appendingPathComponent("atomic.json")
         let data = try Data(contentsOf: url)
         XCTAssertFalse(data.isEmpty)
+    }
+
+    func testStoreDirectoryIsOwnerOnly() throws {
+        let store = makeStore()
+        XCTAssertEqual(try permissions(at: store.directory) & 0o777, 0o700)
+    }
+
+    func testSavedCacheFileIsOwnerOnly() throws {
+        let store = makeStore()
+        store.save(AppSettings.default, file: "private.json")
+        let url = store.directory.appendingPathComponent("private.json")
+        XCTAssertEqual(try permissions(at: url) & 0o777, 0o600)
     }
 }
