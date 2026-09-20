@@ -34,6 +34,15 @@ struct QuotaCardView: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(percentColor)
+
+                if warningLevel == .critical {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.caption)
+                        .foregroundStyle(criticalIconColor)
+                        .frame(width: 16, height: 16)
+                        .accessibilityLabel("Remaining quota is critically low")
+                        .help("Remaining quota is critically low")
+                }
             }
 
             ProgressBar(fraction: percent.map { $0 / 100 },
@@ -46,14 +55,6 @@ struct QuotaCardView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .overlay(alignment: .topTrailing) {
-            if warningLevel == .critical {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(criticalIconColor)
-                    .padding(8)
-                    .help("Remaining quota is critically low")
-            }
-        }
     }
 
     private var percentText: String {
