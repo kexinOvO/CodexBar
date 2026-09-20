@@ -17,6 +17,7 @@ final class CodexSession: @unchecked Sendable {
 
     private let lock = NSLock()
     private var buffer = Data()
+    private var automatedSlashCommandSubmitted = false
 
     /// OSC colour queries already answered in this session (`"]10;?"` /
     /// `"]11;?"`). Only touched from the read source's serial queue.
@@ -31,9 +32,14 @@ final class CodexSession: @unchecked Sendable {
     func start(executablePath: String, workingDirectory: String) throws {
         try FileManager.default.createDirectory(atPath: workingDirectory,
                                                 withIntermediateDirectories: true)
+        // The workspace exists only to isolate Codex from project-level files.
+        // Keep other local users from planting or reading content in it.
+        try? FileManager.default.setAttributes([.posixPermissions: 0o700],
+                                               ofItemAtPath: workingDirectory)
 
         lock.lock()
         buffer.removeAll()
+        automatedSlashCommandSubmitted = false
         lock.unlock()
         answeredColorQueries.removeAll()
 
@@ -81,9 +87,20 @@ final class CodexSession: @unchecked Sendable {
         source.resume()
         readSource = source
 
-        try proc.run()
-        process = proc
-        close(slave) // child owns its copy now
+        do {
+            try proc.run()
+            process = proc
+            close(slave) // child owns its copy now
+        } catch {
+            close(slave)
+            source.cancel()
+            readSource = nil
+            if masterFD >= 0 {
+                close(masterFD)
+                masterFD = -1
+            }
+            throw error
+        }
     }
 
     /// Appends environment entries for the child (TERM, proxy overrides…).
@@ -102,6 +119,18 @@ final class CodexSession: @unchecked Sendable {
                 offset += n
             }
         }
+    }
+
+    /// Claims the one automated slash-command submission allowed for this PTY.
+    /// A session is never reused for a second slash command: if Enter is ever
+    /// swallowed, retrying in the same composer could concatenate two commands
+    /// and turn them into a normal model prompt (for example `/status/status`).
+    func reserveAutomatedSlashCommand() -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !automatedSlashCommandSubmitted else { return false }
+        automatedSlashCommandSubmitted = true
+        return true
     }
 
     /// Raw output accumulated so far.
@@ -138,30 +167,37 @@ final class CodexSession: @unchecked Sendable {
         }
     }
 
-    /// Query prefix -> reply. Replies use the ST terminator (`ESC \`), which
+    /// Query prefix -> reply. Replies use the ST terminator (`ESC \\`), which
     /// the CLI's parser accepts and which can't be confused with input.
     private static let colorQueryResponses: [(String, String)] = [
         ("]10;?", "]10;rgb:0000/0000/0000"),
         ("]11;?", "]11;rgb:ffff/ffff/ffff"),
     ]
 
-    /// Waits until `pattern` appears in cleaned output, or output is quiet for
-    /// `quietSeconds`, or `timeout` elapses. Returns true when pattern found.
+    /// Waits until `pattern` appears in cleaned output, or (when no pattern is
+    /// requested) output has actually remained quiet for `quietSeconds`, or
+    /// `timeout` elapses. Returns true only when a pattern was found.
     func waitFor(pattern: String?, quietSeconds: TimeInterval, timeout: TimeInterval) async -> Bool {
         let deadline = Date().addingTimeInterval(timeout)
+        var lastSize = currentBufferSize()
+        var quietSince = Date()
+
         while Date() < deadline {
             let text = ANSITextCleaner.clean(snapshot())
             if let pattern, text.range(of: pattern, options: .caseInsensitive) != nil {
                 return true
             }
+
             let size = currentBufferSize()
-            try? await Task.sleep(nanoseconds: 400_000_000)
-            if pattern == nil && currentBufferSize() == size {
-                // No pattern requested: quiet detection is enough.
-                let size2 = currentBufferSize()
-                try? await Task.sleep(nanoseconds: 400_000_000)
-                if size2 == currentBufferSize() { return false }
+            if size != lastSize {
+                lastSize = size
+                quietSince = Date()
+            } else if pattern == nil,
+                      Date().timeIntervalSince(quietSince) >= max(0, quietSeconds) {
+                return false
             }
+
+            try? await Task.sleep(nanoseconds: 200_000_000)
         }
         return false
     }
@@ -173,7 +209,11 @@ final class CodexSession: @unchecked Sendable {
     }
 
     func stop() {
+        // Kill descendants while the parent relationship still exists. If the
+        // npm wrapper is terminated first, its native Codex child may be
+        // re-parented and no longer discoverable with `pgrep -P`.
         if let process, process.isRunning {
+            killDescendants(of: process.processIdentifier, depth: 4)
             process.terminate()
             // Grace period, then hard kill.
             for _ in 0..<20 where process.isRunning {
@@ -183,11 +223,7 @@ final class CodexSession: @unchecked Sendable {
                 kill(process.processIdentifier, SIGKILL)
             }
         }
-        // The npm `codex` launcher is a Node wrapper that spawns a native
-        // binary; killing the wrapper orphans it. Kill the descendants too.
-        if let process {
-            killDescendants(of: process.processIdentifier, depth: 2)
-        }
+
         readSource?.cancel()
         readSource = nil
         if masterFD >= 0 {
@@ -229,9 +265,10 @@ final class CodexSession: @unchecked Sendable {
 
 // MARK: - High-level fetch
 
-/// Runs each slash command in its own short-lived session. A dedicated
-/// session per command is more reliable than reusing one TUI: the /status
-/// popup otherwise swallows the following command's text.
+/// Every automated slash-command attempt gets a fresh, short-lived PTY.
+/// A session is never reused for a retry: this is a deliberate safety boundary
+/// preventing residual composer text from turning a slash command into a chat
+/// prompt sent to the model.
 enum CodexCLI {
 
     struct StatusResult {
@@ -244,8 +281,20 @@ enum CodexCLI {
         var versionLine: String?
     }
 
-    /// Starts codex, waits for TUI readiness, handles trust prompts and
-    /// detects a signed-out state.
+    private static let allowedAutomatedSlashCommands: Set<String> = [
+        "/status",
+        "/usage daily",
+        "/usage",
+    ]
+
+    /// Exposed internally for regression tests. Automated TUI input must never
+    /// become an arbitrary chat prompt, even if a future caller passes bad text.
+    static func isAllowedAutomatedCommand(_ command: String) -> Bool {
+        allowedAutomatedSlashCommands.contains(command)
+    }
+
+    /// Starts codex, handles trust prompts, waits for a known idle composer and
+    /// detects a signed-out state before any slash command is allowed through.
     private static func startReadySession(executablePath: String,
                                           workingDirectory: String,
                                           timeout: TimeInterval,
@@ -263,47 +312,91 @@ enum CodexCLI {
             throw CodexBarError.cliFailed("launch failed: \(error.localizedDescription)")
         }
 
-        // Wait for TUI readiness in two phases: first output, then the idle
-        // input placeholder (a command sent too early is silently dropped).
-        _ = await session.waitFor(pattern: "Codex", quietSeconds: 5, timeout: min(45, timeout))
-        let readyText = session.snapshot()
         let placeholders = ["Ask Codex", "Explain this codebase"]
-        if !placeholders.contains(where: { readyText.localizedCaseInsensitiveContains($0) }) {
-            for placeholder in placeholders {
-                if await session.waitFor(pattern: placeholder,
-                                         quietSeconds: 4,
-                                         timeout: min(40, timeout)) {
-                    break
-                }
+        let readinessDeadline = Date().addingTimeInterval(min(60, max(5, timeout)))
+        var trustHandled = false
+        var composerReady = false
+
+        while Date() < readinessDeadline {
+            let cleaned = ANSITextCleaner.clean(session.snapshot())
+            let lower = cleaned.lowercased()
+
+            if lower.contains("not signed in") {
+                session.stop()
+                throw CodexBarError.notSignedIn
             }
-        }
-        // The placeholder can render while the TUI is still initializing
-        // ("model: loading"). Give it a settle period so typed commands and
-        // the Enter key aren't swallowed by re-renders.
-        _ = await session.waitFor(pattern: nil, quietSeconds: 5, timeout: 20)
 
-        if readyText.lowercased().contains("not signed in")
-            || session.snapshot().lowercased().contains("not signed in") {
+            if !trustHandled,
+               cleaned.localizedCaseInsensitiveContains("Do you trust the contents of this directory") {
+                // This is a fresh isolated workspace and no composer exists yet.
+                // Confirm the trust prompt once, then wait for the real composer.
+                trustHandled = true
+                session.send("\r")
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                continue
+            }
+
+            if placeholders.contains(where: { cleaned.localizedCaseInsensitiveContains($0) }) {
+                composerReady = true
+                break
+            }
+
+            try? await Task.sleep(nanoseconds: 250_000_000)
+        }
+
+        guard composerReady else {
             session.stop()
-            throw CodexBarError.notSignedIn
+            throw CodexBarError.timeout
         }
-        if session.snapshot().contains("Do you trust the contents of this directory") {
-            session.send("\r")
-            _ = await session.waitFor(pattern: nil, quietSeconds: 4, timeout: 20)
-        }
-        return session
-    }
 
-    private static func quit(_ session: CodexSession) {
-        session.send("\u{1B}")
-        usleep(500_000)
-        session.send("/quit\r")
-        usleep(1_500_000)
-        session.stop()
+        // A placeholder can render before the final startup re-renders finish.
+        // `waitFor` now honours the full quiet period rather than only ~0.8 s.
+        _ = await session.waitFor(pattern: nil,
+                                  quietSeconds: 5,
+                                  timeout: min(20, max(5, timeout)))
+        return session
     }
 
     static func versionLine(in raw: String) -> String? {
         StatusParser.firstMatch(in: ANSITextCleaner.clean(raw), pattern: #"Codex \(v([^)]+)\)"#)
+    }
+
+    /// Submits exactly one allow-listed slash command as a bracketed paste.
+    /// Character-by-character typing triggers slash autocomplete, while a
+    /// second submission in the same PTY could concatenate with stale text.
+    private static func pasteAndSubmit(_ session: CodexSession,
+                                       command: String) async throws {
+        guard isAllowedAutomatedCommand(command) else {
+            throw CodexBarError.cliFailed("refusing non-allow-listed automated input")
+        }
+        guard session.reserveAutomatedSlashCommand() else {
+            throw CodexBarError.cliFailed("refusing a second slash command in one CLI session")
+        }
+
+        session.send("\u{1B}[200~\(command)\u{1B}[201~")
+        try? await Task.sleep(nanoseconds: 800_000_000)
+        session.send("\r")
+    }
+
+    /// Polls cleaned output for either the expected card marker or the TUI's
+    /// task-running hint ("Esc to interrupt"). A model-turn marker wins over a
+    /// card marker: once a command leaks into chat, the session is unsafe and
+    /// must be destroyed without sending any more input.
+    private static func waitForCardOrLeak(_ session: CodexSession,
+                                          card: String,
+                                          timeout: TimeInterval) async -> (Bool, Bool) {
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline {
+            let text = ANSITextCleaner.clean(session.snapshot())
+            if text.range(of: "Esc to interrupt", options: .caseInsensitive) != nil {
+                return (false, true)
+            }
+            if text.range(of: card, options: .caseInsensitive) != nil {
+                return (true, false)
+            }
+            try? await Task.sleep(nanoseconds: 500_000_000)
+        }
+        return (false, false)
     }
 
     // MARK: /status
@@ -312,151 +405,146 @@ enum CodexCLI {
                             workingDirectory: String,
                             timeout: TimeInterval,
                             pathEntries: [String] = []) async throws -> StatusResult {
-        let session = try await startReadySession(executablePath: executablePath,
-                                                  workingDirectory: workingDirectory,
-                                                  timeout: timeout,
-                                                  pathEntries: pathEntries)
-        defer { quit(session) }
+        var lastVersion: String?
 
-        // "5h limit" only appears in the /status card — the startup warning
-        // ("...weekly limit left...") and banner don't contain it.
-        // One retry in case the first command got swallowed mid-init.
-        var found = false
-        for attempt in 0..<2 {
-            if attempt > 0 {
-                session.send("\u{1B}")
-                try? await Task.sleep(nanoseconds: 800_000_000)
-                await clearComposer(session)
-            }
-            await pasteAndSubmit(session, command: "/status")
+        // At most two attempts, and every retry starts a brand-new TUI. If the
+        // first Enter was swallowed, its residual `/status` dies with that PTY.
+        for _ in 0..<2 {
+            let session = try await startReadySession(executablePath: executablePath,
+                                                      workingDirectory: workingDirectory,
+                                                      timeout: timeout,
+                                                      pathEntries: pathEntries)
+            try await pasteAndSubmit(session, command: "/status")
             let (hit, leaked) = await waitForCardOrLeak(session,
                                                         card: "5h limit",
                                                         timeout: min(45, timeout))
-            // Guard against the retry failure mode observed with codex-cli
-            // 0.155.1: if Enter was swallowed and the re-paste concatenated
-            // ("/status/status"), the TUI submits it as a *chat prompt* to
-            // the model — burning tokens and leaving a junk task in the
-            // linked ChatGPT account. The interrupt hint only appears while
-            // a model turn is running, i.e. the command leaked. Bail out
-            // immediately instead of waiting out the clock.
-            if leaked { break }
-            if hit { found = true; break }
+            let raw = session.snapshot()
+            lastVersion = versionLine(in: raw) ?? lastVersion
+            session.stop()
+
+            if leaked {
+                throw CodexBarError.cliFailed("slash command was interpreted as a chat prompt")
+            }
+            if hit {
+                return StatusResult(statusRaw: raw, versionLine: lastVersion)
+            }
         }
-        let raw = session.snapshot()
-        return StatusResult(statusRaw: found ? raw : raw,
-                            versionLine: versionLine(in: raw))
+
+        // Fail closed: never let startup/banner text masquerade as /status.
+        return StatusResult(statusRaw: nil, versionLine: lastVersion)
     }
 
     // MARK: /usage daily
-
-    /// Submits a command as a bracketed paste. Typing character-by-character
-    /// triggers the slash-command autocomplete menu, which swallows the rest
-    /// of the text; a paste bypasses per-key handling entirely.
-    private static func pasteAndSubmit(_ session: CodexSession, command: String) async {
-        session.send("\u{1B}[200~\(command)\u{1B}[201~")
-        try? await Task.sleep(nanoseconds: 800_000_000)
-        session.send("\r")
-    }
-
-    /// Wipes residual composer text with repeated backspaces. ESC alone only
-    /// closes popups — it does NOT clear the input line, so a re-paste after
-    /// a swallowed Enter would otherwise concatenate with the leftover text
-    /// ("/status" + "/status") and go out as a chat prompt to the model.
-    /// Extra backspaces on an already-empty composer are harmless no-ops.
-    private static func clearComposer(_ session: CodexSession) async {
-        session.send(String(repeating: "\u{7F}", count: 80))
-        try? await Task.sleep(nanoseconds: 400_000_000)
-    }
-
-    /// Polls cleaned output for either the expected card marker or the TUI's
-    /// task-running hint ("Esc to interrupt"). The hint is only rendered
-    /// while a *model turn* is in flight, which for these local slash
-    /// commands means the submission leaked as a chat prompt. Returns
-    /// `(cardFound, promptLeaked)`; a leak short-circuits the retry ladder.
-    private static func waitForCardOrLeak(_ session: CodexSession,
-                                          card: String,
-                                          timeout: TimeInterval) async -> (Bool, Bool) {
-        let deadline = Date().addingTimeInterval(timeout)
-        while Date() < deadline {
-            let text = ANSITextCleaner.clean(session.snapshot())
-            if text.range(of: card, options: .caseInsensitive) != nil {
-                return (true, false)
-            }
-            if text.range(of: "Esc to interrupt", options: .caseInsensitive) != nil {
-                return (false, true)
-            }
-            try? await Task.sleep(nanoseconds: 500_000_000)
-        }
-        return (false, false)
-    }
 
     static func fetchUsage(executablePath: String,
                            workingDirectory: String,
                            timeout: TimeInterval,
                            pathEntries: [String] = []) async throws -> UsageResult {
-        // Usage goes to the network backend and can be slow; allow a
-        // generous window regardless of the short CLI timeout.
+        // Usage goes to the network backend and can be slow; allow a generous
+        // window regardless of the short CLI timeout.
         let waitTimeout = max(180, timeout)
+        var lastVersion: String?
+
+        // Preferred path: `/usage daily`, once, in its own PTY.
+        do {
+            let session = try await startReadySession(executablePath: executablePath,
+                                                      workingDirectory: workingDirectory,
+                                                      timeout: timeout,
+                                                      pathEntries: pathEntries)
+            try await pasteAndSubmit(session, command: "/usage daily")
+            let (hit, leaked) = await waitForCardOrLeak(session,
+                                                        card: "Token activity",
+                                                        timeout: waitTimeout / 2)
+            if hit {
+                _ = await session.waitFor(pattern: nil,
+                                          quietSeconds: 12,
+                                          timeout: min(120, waitTimeout / 2))
+            }
+            let raw = session.snapshot()
+            lastVersion = versionLine(in: raw) ?? lastVersion
+            session.stop()
+
+            if leaked {
+                throw CodexBarError.cliFailed("slash command was interpreted as a chat prompt")
+            }
+            if hit {
+                return UsageResult(usageRaw: raw, versionLine: lastVersion)
+            }
+        }
+
+        // Compatibility fallback for CLI versions that expose usage through
+        // `/usage` → "Show usage". This is a fresh PTY, so no text from the
+        // failed `/usage daily` attempt can survive into its composer.
         let session = try await startReadySession(executablePath: executablePath,
                                                   workingDirectory: workingDirectory,
                                                   timeout: timeout,
                                                   pathEntries: pathEntries)
-        defer { quit(session) }
+        try await pasteAndSubmit(session, command: "/usage")
 
-        // Ladder: paste → second Enter (left unsubmitted) → /usage menu.
-        var found = false
-        for attempt in 0..<3 {
-            switch attempt {
-            case 0:
-                await pasteAndSubmit(session, command: "/usage daily")
-            case 1:
-                session.send("\r")
-            default:
-                // Same guard as fetchStatus: wipe residual composer text so
-                // the typed "/usage" can't concatenate with leftovers.
-                session.send("\u{1B}")
-                try? await Task.sleep(nanoseconds: 400_000_000)
-                await clearComposer(session)
-                session.send("/usage\r")
-                if await session.waitFor(pattern: "Show usage", quietSeconds: 8, timeout: 30) {
-                    try? await Task.sleep(nanoseconds: 500_000_000)
-                    session.send("\r")
-                }
-            }
-            // Accidental chat-prompt leak detector (see fetchStatus).
-            let (hit, leaked) = await waitForCardOrLeak(session,
-                                                        card: "Token activity",
-                                                        timeout: waitTimeout / 3)
-            if leaked { break }
-            found = hit
-            if found {
-                // The header can appear in a "Token activity   Loading..."
-                // frame while the heatmap is still being fetched from the
-                // backend. Wait for output to go quiet before capturing.
-                _ = await session.waitFor(pattern: nil,
-                                          quietSeconds: 12,
-                                          timeout: min(120, waitTimeout / 3))
-                break
-            }
+        let (menuFound, menuLeaked) = await waitForCardOrLeak(session,
+                                                              card: "Show usage",
+                                                              timeout: min(30, waitTimeout / 3))
+        if menuLeaked {
+            session.stop()
+            throw CodexBarError.cliFailed("slash command was interpreted as a chat prompt")
+        }
+        guard menuFound else {
+            let raw = session.snapshot()
+            lastVersion = versionLine(in: raw) ?? lastVersion
+            session.stop()
+            return UsageResult(usageRaw: nil, versionLine: lastVersion)
+        }
+
+        // `/usage` is already confirmed to have opened its local menu. Enter
+        // selects the highlighted "Show usage" item; no second slash command
+        // is ever injected into this session.
+        try? await Task.sleep(nanoseconds: 500_000_000)
+        session.send("\r")
+
+        let (hit, leaked) = await waitForCardOrLeak(session,
+                                                    card: "Token activity",
+                                                    timeout: waitTimeout / 2)
+        if hit {
+            _ = await session.waitFor(pattern: nil,
+                                      quietSeconds: 12,
+                                      timeout: min(120, waitTimeout / 2))
         }
         let raw = session.snapshot()
-        return UsageResult(usageRaw: found ? raw : nil,
-                           versionLine: versionLine(in: raw))
+        lastVersion = versionLine(in: raw) ?? lastVersion
+        session.stop()
+
+        if leaked {
+            throw CodexBarError.cliFailed("usage menu selection entered a model turn")
+        }
+        return UsageResult(usageRaw: hit ? raw : nil,
+                           versionLine: lastVersion)
     }
 
-    /// Child environment: inherits the app environment, ensures TERM looks
-    /// like a real terminal, and propagates the macOS system HTTPS proxy so
-    /// the CLI's backend requests behave like they do in the user's terminal.
-    ///
-    /// `pathEntries` are prepended to `PATH`; the locator supplies them when it
-    /// had to fall back to the Node-based npm wrapper, which needs `node` on
-    /// `PATH` — something a Finder-launched app does not have.
+    /// Child environment is intentionally allow-listed instead of blindly
+    /// forwarding every secret present in the GUI process environment. Keep
+    /// only values Codex commonly needs for identity/configuration, locale,
+    /// TLS and proxies; PATH is rebuilt below.
     static func childEnvironment(pathEntries: [String] = []) -> [String: String] {
-        var env = ProcessInfo.processInfo.environment
+        let parent = ProcessInfo.processInfo.environment
+        let allowedKeys: Set<String> = [
+            "HOME", "USER", "LOGNAME", "SHELL", "TMPDIR",
+            "LANG", "LC_ALL", "LC_CTYPE",
+            "XDG_CONFIG_HOME", "XDG_DATA_HOME", "XDG_CACHE_HOME",
+            "CODEX_HOME", "OPENAI_API_KEY", "OPENAI_BASE_URL",
+            "SSL_CERT_FILE", "SSL_CERT_DIR", "NODE_EXTRA_CA_CERTS",
+            "https_proxy", "HTTPS_PROXY", "http_proxy", "HTTP_PROXY",
+            "all_proxy", "ALL_PROXY", "no_proxy", "NO_PROXY",
+        ]
+
+        var env: [String: String] = [:]
+        for (key, value) in parent
+        where allowedKeys.contains(key) || key.hasPrefix("LC_") {
+            env[key] = value
+        }
         env["TERM"] = "xterm-256color"
 
         var dirs = pathEntries
-        dirs.append(contentsOf: (env["PATH"] ?? "").components(separatedBy: ":"))
+        dirs.append(contentsOf: (parent["PATH"] ?? "").components(separatedBy: ":"))
         dirs.append(contentsOf: CodexLocator.pathDirectories())
         var seen = Set<String>()
         env["PATH"] = dirs
