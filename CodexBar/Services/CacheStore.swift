@@ -21,6 +21,10 @@ final class CacheStore: @unchecked Sendable {
         }
         try? FileManager.default.createDirectory(at: self.directory,
                                                  withIntermediateDirectories: true)
+        // Cache includes account metadata such as email/plan. Keep the app
+        // support directory private even on multi-user machines.
+        try? FileManager.default.setAttributes([.posixPermissions: 0o700],
+                                               ofItemAtPath: self.directory.path)
     }
 
     var cliWorkspaceURL: URL {
@@ -45,11 +49,15 @@ final class CacheStore: @unchecked Sendable {
         }
     }
 
-    /// Atomic write; failures are non-fatal (cache is best-effort).
+    /// Atomic write; failures are non-fatal (cache is best-effort). Explicitly
+    /// chmod after the atomic replacement because the final inode may be new.
     func save<T: Codable>(_ value: T, file: String) {
+        let fileURL = url(for: file)
         do {
             let data = try JSONEncoder().encode(value)
-            try data.write(to: url(for: file), options: [.atomic])
+            try data.write(to: fileURL, options: [.atomic])
+            try FileManager.default.setAttributes([.posixPermissions: 0o600],
+                                                  ofItemAtPath: fileURL.path)
         } catch {
             // Ignore write failures; next refresh will retry.
         }
