@@ -1,0 +1,81 @@
+name: Publish CodexBar 2.0
+
+on:
+  push:
+    branches:
+      - release-v2
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: xcode-27
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: release-v2
+          fetch-depth: 0
+
+      - name: Prepare version 2.0
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          project = Path("CodexBar.xcodeproj/project.pbxproj")
+          text = project.read_text()
+          old = "MARKETING_VERSION = 1.1;"
+          count = text.count(old)
+          if count != 2:
+              raise SystemExit(f"Expected 2 app MARKETING_VERSION entries, found {count}")
+          project.write_text(text.replace(old, "MARKETING_VERSION = 2.0;"))
+
+          readme = Path("README.md")
+          text = readme.read_text()
+          old = "当前工程版本：`1.1`"
+          if old not in text:
+              raise SystemExit("README version marker not found")
+          readme.write_text(text.replace(old, "当前工程版本：`2.0`", 1))
+          PY
+
+          git rm .github/workflows/release-v2.yml
+
+      - name: Run tests
+        run: >-
+          xcodebuild
+          -project CodexBar.xcodeproj
+          -scheme CodexBar
+          -configuration Debug
+          CODE_SIGNING_ALLOWED=NO
+          test
+
+      - name: Build DMG
+        run: ./scripts/create-dmg.sh
+
+      - name: Commit version 2.0
+        id: version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CodexBar.xcodeproj/project.pbxproj README.md
+          git commit -m "release: CodexBar 2.0"
+          NEW_SHA="$(git rev-parse HEAD)"
+          git push origin HEAD:main
+          git push origin HEAD:release-v2
+          echo "sha=$NEW_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.0
+          target_commitish: ${{ steps.version.outputs.sha }}
+          name: CodexBar 2.0
+          files: dist/CodexBar-2.0.dmg
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          make_latest: true
+
+      - name: Delete temporary release branch
+        if: success()
+        run: git push origin --delete release-v2
