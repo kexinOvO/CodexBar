@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Darwin
 
 /// Finds the Codex CLI binary and reports its version.
 ///
@@ -20,14 +21,18 @@ import Foundation
 /// 4. a scan of versioned install roots (nvm, WorkBuddy's managed Node, …),
 /// 5. a last-resort question to the user's login shell.
 ///
-/// A candidate only counts once `codex --version` actually runs, and wherever
-/// possible the Node wrapper is traded for the native binary it would spawn.
+/// A candidate only counts once a bounded `codex --version` probe succeeds and
+/// returns a Codex-looking version string. Wherever possible the Node wrapper
+/// is traded for the native binary it would spawn.
 enum CodexLocator {
 
     static let commonPaths = [
         "/opt/homebrew/bin/codex",
         "/usr/local/bin/codex",
     ]
+
+    private static let versionProbeTimeout: TimeInterval = 3
+    private static let maxProbeOutputBytes = 64 * 1024
 
     struct LocatedCodex {
         /// The executable to actually launch (the native binary when we can
@@ -46,17 +51,16 @@ enum CodexLocator {
     // MARK: - Discovery
 
     /// Priority: user override → common prefixes → `PATH` → scanned installs →
-    /// login shell. Returns the first candidate that reports a version; if none
-    /// do, the first one that at least exists (so the UI can show a path).
+    /// login shell. Only a candidate that successfully identifies itself as
+    /// Codex is returned; an arbitrary executable that merely exists is never
+    /// launched by the app-server path.
     static func locate(override: String?) -> LocatedCodex? {
-        var weakest: LocatedCodex?
         for candidate in candidates(override: override) {
             guard let valid = usable(candidate) else { continue }
             let located = resolve(valid)
             if located.version != nil { return located }
-            if weakest == nil { weakest = located }
         }
-        return weakest
+        return nil
     }
 
     /// Validates exactly one path and nothing else. Used by the settings
@@ -92,13 +96,30 @@ enum CodexLocator {
         return (text as NSString).expandingTildeInPath
     }
 
-    /// `nil` unless the path exists, is a file and is executable.
+    /// `nil` unless the path resolves to a regular executable owned by the
+    /// current user or root and is not group/world-writable. This rejects the
+    /// most dangerous PATH-hijack cases without breaking normal Homebrew/nvm
+    /// installations or an explicit user-owned Codex install.
     private static func usable(_ rawPath: String) -> String? {
         guard let path = normalized(rawPath) else { return nil }
         var isDir: ObjCBool = false
         guard FileManager.default.fileExists(atPath: path, isDirectory: &isDir),
               !isDir.boolValue,
               FileManager.default.isExecutableFile(atPath: path) else { return nil }
+
+        let resolved = URL(fileURLWithPath: path).resolvingSymlinksInPath().path
+        guard let attributes = try? FileManager.default.attributesOfItem(atPath: resolved),
+              attributes[.type] as? FileAttributeType == .typeRegular,
+              let permissions = attributes[.posixPermissions] as? NSNumber,
+              let owner = attributes[.ownerAccountID] as? NSNumber else {
+            return nil
+        }
+
+        let mode = permissions.uint16Value
+        guard mode & 0o022 == 0 else { return nil }
+
+        let ownerID = uid_t(owner.uint32Value)
+        guard ownerID == 0 || ownerID == geteuid() else { return nil }
         return path
     }
 
@@ -107,7 +128,7 @@ enum CodexLocator {
         // Prefer the native binary over the npm Node wrapper: the wrapper
         // spawns the real binary as a child process, which complicates cleanup
         // and needs `node` on the child `PATH`.
-        if let native = nativeBinary(for: path) {
+        if let native = nativeBinary(for: path), usable(native) != nil {
             return LocatedCodex(path: native, sourcePath: path, version: version(of: native))
         }
         let bin = nodeBinDirectory(forWrapper: path).map { [$0] } ?? []
@@ -149,12 +170,9 @@ enum CodexLocator {
         return nil
     }
 
-    /// Looks for `codex-darwin-*/vendor/<triple>/bin/codex` inside an `@openai`
-    /// directory — and one level deeper, because npm has two layouts in the
-    /// wild for the platform package:
-    ///
-    /// * flat (nvm/bun):    `@openai/{codex, codex-darwin-arm64}`
-    /// * nested (WorkBuddy): `@openai/codex/node_modules/@openai/codex-darwin-arm64`
+    /// Looks only for the platform package expected on the current CPU. This
+    /// avoids treating an unrelated `codex-darwin-*` directory as authoritative.
+    /// Both flat and nested npm layouts are supported.
     private static func nativeBinary(inOpenAIDirectory directory: String) -> String? {
         var roots = [directory]
         let entries = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []
@@ -162,17 +180,19 @@ enum CodexLocator {
             roots.append("\(directory)/\(entry)/node_modules/@openai")
         }
 
-        let triples = [hostTriple, "aarch64-apple-darwin", "x86_64-apple-darwin"]
         for root in roots {
-            let packages = (try? FileManager.default.contentsOfDirectory(atPath: root)) ?? []
-            for package in packages where package.hasPrefix("codex-darwin-") {
-                for triple in triples {
-                    let candidate = "\(root)/\(package)/vendor/\(triple)/bin/codex"
-                    if FileManager.default.isExecutableFile(atPath: candidate) { return candidate }
-                }
-            }
+            let candidate = "\(root)/\(hostPackage)/vendor/\(hostTriple)/bin/codex"
+            if usable(candidate) != nil { return candidate }
         }
         return nil
+    }
+
+    private static var hostPackage: String {
+        #if arch(arm64)
+        return "codex-darwin-arm64"
+        #else
+        return "codex-darwin-x64"
+        #endif
     }
 
     private static var hostTriple: String {
@@ -199,7 +219,7 @@ enum CodexLocator {
             url = url.deletingLastPathComponent()
             let bin = url.appendingPathComponent("bin")
             let node = bin.appendingPathComponent("node")
-            if FileManager.default.isExecutableFile(atPath: node.path) { return bin.path }
+            if usable(node.path) != nil { return bin.path }
             if url.path.isEmpty || url.path == "/" { break }
         }
         return nil
@@ -253,13 +273,13 @@ enum CodexLocator {
             if let entries = try? FileManager.default.contentsOfDirectory(atPath: root) {
                 for entry in entries where !entry.hasPrefix(".") {
                     let versioned = "\(root)/\(entry)/bin/codex"
-                    if FileManager.default.isExecutableFile(atPath: versioned) {
+                    if usable(versioned) != nil {
                         found.append(versioned)
                     }
                 }
             }
             let flat = root + "/codex"
-            if FileManager.default.isExecutableFile(atPath: flat) {
+            if usable(flat) != nil {
                 found.append(flat)
             }
         }
@@ -276,21 +296,20 @@ enum CodexLocator {
 
     // MARK: - Login shell
 
-    /// Asks the user's login shell where `codex` lives. This is what makes
-    /// custom setups (nvm, fnm, a hand-edited `PATH`, …) work without the app
-    /// hard-coding every possible prefix.
+    /// Asks the user's login shell where `codex` lives. This remains a
+    /// last-resort fallback for custom setups. Output is bounded and the shell
+    /// is killed after five seconds so a noisy or broken rc file cannot hang
+    /// CodexBar indefinitely.
     private static func loginShellCodexPath() -> String? {
         let shell = ProcessInfo.processInfo.environment["SHELL"] ?? "/bin/zsh"
-        guard FileManager.default.isExecutableFile(atPath: shell) else { return nil }
+        guard usable(shell) != nil else { return nil }
 
         let proc = Process()
         proc.executableURL = URL(fileURLWithPath: shell)
         // `-i` so `.zshrc` is sourced; that is where most people put `PATH`.
         proc.arguments = ["-ilc", "command -v codex"]
         let stdout = Pipe()
-        let box = OutputCollector()
-        // Drain asynchronously: a chatty rc file can otherwise fill the pipe
-        // buffer and deadlock the wait below.
+        let box = OutputCollector(limit: maxProbeOutputBytes)
         stdout.fileHandleForReading.readabilityHandler = { handle in
             box.append(handle.availableData)
         }
@@ -308,43 +327,61 @@ enum CodexLocator {
         let deadline = Date().addingTimeInterval(5)
         while proc.isRunning && Date() < deadline { usleep(50_000) }
         if proc.isRunning {
-            proc.terminate()
+            terminate(proc)
             stdout.fileHandleForReading.readabilityHandler = nil
             return nil
         }
         stdout.fileHandleForReading.readabilityHandler = nil
+
+        let snapshot = box.snapshot
+        guard !snapshot.overflowed else { return nil }
         // Any trailing startup noise is ignored: `command -v` prints last.
-        let last = box.text
+        let last = snapshot.text
             .components(separatedBy: .newlines)
             .last { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
         return usable(last ?? "")
     }
 
-    /// Thread-safe sink for a `readabilityHandler`.
+    /// Thread-safe bounded sink for a `readabilityHandler`.
     private final class OutputCollector: @unchecked Sendable {
         private let lock = NSLock()
+        private let limit: Int
         private var data = Data()
+        private var didOverflow = false
+
+        init(limit: Int) {
+            self.limit = max(1, limit)
+        }
 
         func append(_ chunk: Data) {
             guard !chunk.isEmpty else { return }
             lock.lock()
-            data.append(chunk)
-            lock.unlock()
+            defer { lock.unlock() }
+
+            let remaining = max(0, limit - data.count)
+            if remaining > 0 {
+                data.append(chunk.prefix(remaining))
+            }
+            if chunk.count > remaining {
+                didOverflow = true
+            }
         }
 
-        var text: String {
+        var snapshot: (text: String, overflowed: Bool) {
             lock.lock()
             defer { lock.unlock() }
-            return String(data: data, encoding: .utf8) ?? ""
+            return (String(data: data, encoding: .utf8) ?? "", didOverflow)
         }
     }
 
     // MARK: - Version probe
 
-    /// `codex --version`, e.g. "codex-cli 0.155.1". `pathEntries` are
-    /// prepended to `PATH` so a Node wrapper can be probed even though the app
-    /// itself has no `node` on its `PATH`.
+    /// Runs a bounded `codex --version` probe. Both stdout and stderr are
+    /// drained asynchronously, the process is terminated after three seconds,
+    /// and only a Codex-looking version string is accepted.
     static func version(of path: String, pathEntries: [String] = []) -> String? {
+        guard usable(path) != nil else { return nil }
+
         let proc = Process()
         proc.executableURL = URL(fileURLWithPath: path)
         proc.arguments = ["--version"]
@@ -359,20 +396,58 @@ enum CodexLocator {
                 .joined(separator: ":")
             proc.environment = env
         }
-        let pipe = Pipe()
-        proc.standardOutput = pipe
-        proc.standardError = Pipe()
+
+        let stdout = Pipe()
+        let stderr = Pipe()
+        let output = OutputCollector(limit: maxProbeOutputBytes)
+        let errors = OutputCollector(limit: maxProbeOutputBytes)
+        stdout.fileHandleForReading.readabilityHandler = { output.append($0.availableData) }
+        stderr.fileHandleForReading.readabilityHandler = { errors.append($0.availableData) }
+        proc.standardOutput = stdout
+        proc.standardError = stderr
         proc.standardInput = FileHandle.nullDevice
+
         do {
             try proc.run()
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            proc.waitUntilExit()
-            guard proc.terminationStatus == 0 else { return nil }
-            let out = String(data: data, encoding: .utf8)?
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            return out?.isEmpty == false ? out : nil
         } catch {
+            stdout.fileHandleForReading.readabilityHandler = nil
+            stderr.fileHandleForReading.readabilityHandler = nil
             return nil
+        }
+
+        let deadline = Date().addingTimeInterval(versionProbeTimeout)
+        while proc.isRunning && Date() < deadline { usleep(25_000) }
+        let timedOut = proc.isRunning
+        if timedOut { terminate(proc) }
+
+        stdout.fileHandleForReading.readabilityHandler = nil
+        stderr.fileHandleForReading.readabilityHandler = nil
+
+        guard !timedOut, proc.terminationStatus == 0 else { return nil }
+        let stdoutSnapshot = output.snapshot
+        let stderrSnapshot = errors.snapshot
+        guard !stdoutSnapshot.overflowed, !stderrSnapshot.overflowed else { return nil }
+
+        let text = stdoutSnapshot.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard looksLikeCodexVersion(text) else { return nil }
+        return text
+    }
+
+    private static func looksLikeCodexVersion(_ text: String) -> Bool {
+        guard !text.isEmpty, text.utf8.count <= 4_096 else { return false }
+        let pattern = #"(?i)\b(?:openai\s+)?codex(?:-cli)?\b[^\r\n]{0,96}\b\d+\.\d+(?:\.\d+)?\b"#
+        return text.range(of: pattern, options: .regularExpression) != nil
+    }
+
+    private static func terminate(_ process: Process) {
+        guard process.isRunning else { return }
+        process.terminate()
+        let gracefulDeadline = Date().addingTimeInterval(0.5)
+        while process.isRunning && Date() < gracefulDeadline { usleep(25_000) }
+        if process.isRunning {
+            kill(process.processIdentifier, SIGKILL)
+            let killDeadline = Date().addingTimeInterval(0.5)
+            while process.isRunning && Date() < killDeadline { usleep(25_000) }
         }
     }
 }
