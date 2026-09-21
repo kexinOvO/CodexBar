@@ -242,12 +242,24 @@ extension AppSettings {
             }
         }
 
-        statusRefreshInterval = decodeOrDefault(TimeInterval.self,
-                                                forKey: .statusRefreshInterval,
-                                                default: fallback.statusRefreshInterval)
-        usageRefreshInterval = decodeOrDefault(TimeInterval.self,
-                                               forKey: .usageRefreshInterval,
-                                               default: fallback.usageRefreshInterval)
+        func decodeBoundedTimeInterval(forKey key: Keys,
+                                       default value: TimeInterval,
+                                       range: ClosedRange<TimeInterval>) -> TimeInterval {
+            let decoded = decodeOrDefault(TimeInterval.self, forKey: key, default: value)
+            guard decoded.isFinite else { return value }
+            return min(max(decoded, range.lowerBound), range.upperBound)
+        }
+
+        statusRefreshInterval = decodeBoundedTimeInterval(
+            forKey: .statusRefreshInterval,
+            default: fallback.statusRefreshInterval,
+            range: 60...3_600
+        )
+        usageRefreshInterval = decodeBoundedTimeInterval(
+            forKey: .usageRefreshInterval,
+            default: fallback.usageRefreshInterval,
+            range: 300...86_400
+        )
         menuBarDisplayMode = decodeOrDefault(MenuBarDisplayMode.self,
                                              forKey: .menuBarDisplayMode,
                                              default: fallback.menuBarDisplayMode)
@@ -283,9 +295,11 @@ extension AppSettings {
         launchAtLogin = decodeOrDefault(Bool.self,
                                         forKey: .launchAtLogin,
                                         default: fallback.launchAtLogin)
-        cliTimeout = decodeOrDefault(TimeInterval.self,
-                                     forKey: .cliTimeout,
-                                     default: fallback.cliTimeout)
+        cliTimeout = decodeBoundedTimeInterval(
+            forKey: .cliTimeout,
+            default: fallback.cliTimeout,
+            range: 5...600
+        )
     }
 }
 
