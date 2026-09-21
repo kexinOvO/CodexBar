@@ -12,13 +12,23 @@ jobs:
   release:
     runs-on: xcode-27
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Build DMG
         run: ./scripts/create-dmg.sh
 
+      - name: Generate SHA-256 checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          for dmg in dist/CodexBar-*.dmg; do
+            shasum -a 256 "$dmg" > "$dmg.sha256"
+          done
+
       - name: Publish GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
-          files: dist/CodexBar-*.dmg
+          files: |
+            dist/CodexBar-*.dmg
+            dist/CodexBar-*.dmg.sha256
           generate_release_notes: true
