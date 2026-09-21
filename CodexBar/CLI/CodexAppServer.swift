@@ -84,6 +84,7 @@ final class CodexAppServerSession: @unchecked Sendable {
     private let stderrLock = NSLock()
     private var stderrTail = Data()
     private let maxStderrBytes = 65_536
+    private let maxStdoutFrameBytes = 4 * 1024 * 1024
 
     /// The app-server identifies itself in the initialize response. This is
     /// useful diagnostically, but CodexBar still displays the locator's
@@ -288,7 +289,7 @@ final class CodexAppServerSession: @unchecked Sendable {
 
     private func readJSONObject(deadline: Date) throws -> [String: Any] {
         while true {
-            if let line = popLine() {
+            if let line = try popLine() {
                 if line.isEmpty { continue }
                 let object = try JSONSerialization.jsonObject(with: line, options: [])
                 guard let dictionary = object as? [String: Any] else {
@@ -318,6 +319,11 @@ final class CodexAppServerSession: @unchecked Sendable {
                                     chunk.count)
             if count > 0 {
                 stdoutBuffer.append(contentsOf: chunk[0..<count])
+                if stdoutBuffer.firstIndex(of: 0x0A) == nil,
+                   stdoutBuffer.count > maxStdoutFrameBytes {
+                    stdoutBuffer.removeAll(keepingCapacity: false)
+                    throw CodexBarError.cliFailed("codex app-server response exceeded size limit")
+                }
                 continue
             }
             if count < 0, errno == EINTR { continue }
@@ -330,8 +336,12 @@ final class CodexAppServerSession: @unchecked Sendable {
         }
     }
 
-    private func popLine() -> Data? {
+    private func popLine() throws -> Data? {
         guard let newline = stdoutBuffer.firstIndex(of: 0x0A) else { return nil }
+        guard newline <= maxStdoutFrameBytes else {
+            stdoutBuffer.removeAll(keepingCapacity: false)
+            throw CodexBarError.cliFailed("codex app-server response exceeded size limit")
+        }
         var line = Data(stdoutBuffer[..<newline])
         stdoutBuffer.removeSubrange(...newline)
         if line.last == 0x0D { line.removeLast() }

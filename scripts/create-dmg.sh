@@ -9,7 +9,16 @@ APP_NAME="CodexBar"
 APP_PATH="$DERIVED_DATA_DIR/Build/Products/$CONFIGURATION/$APP_NAME.app"
 OUTPUT_DIR="${OUTPUT_DIR:-$ROOT_DIR/dist}"
 
-rm -rf "$OUTPUT_DIR"
+# `rm -rf` below is intentional, but never allow obviously catastrophic
+# destinations when callers override OUTPUT_DIR.
+case "$OUTPUT_DIR" in
+  ""|"/"|"$ROOT_DIR"|"$HOME")
+    echo "Refusing unsafe OUTPUT_DIR: $OUTPUT_DIR" >&2
+    exit 1
+    ;;
+esac
+
+rm -rf -- "$OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR"
 
 if [[ "${SKIP_BUILD:-0}" != "1" ]]; then
