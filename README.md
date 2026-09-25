@@ -1,8 +1,10 @@
 # CodexBar
 
+**English** | [简体中文](README.zh-CN.md)
+
 [![CI](https://github.com/kexinOvO/CodexBar/actions/workflows/ci.yml/badge.svg)](https://github.com/kexinOvO/CodexBar/actions/workflows/ci.yml)
 
-A native macOS menu bar app for monitoring **OpenAI Codex CLI rate limits and token activity**.
+A native macOS menu bar companion for **OpenAI Codex CLI** that puts rate limits, reset times, and token activity at a glance.
 
 CodexBar works exclusively with the Codex CLI already installed and authenticated on your Mac. It launches `codex app-server` and reads account, rate-limit, and token-usage data through its structured stdin/stdout protocol.
 
@@ -14,7 +16,7 @@ The current version has **completely removed PTY / TUI automation**. CodexBar no
 
 - Native SwiftUI + AppKit menu bar application
 - No Electron, Tauri, or third-party runtime dependencies
-- Current project version: `2.0`
+- Latest release: `v2.1`
 - Xcode project and CI currently use **Xcode 27**
 - Current `MACOSX_DEPLOYMENT_TARGET = 27.0`
 - Data layer migrated to `codex app-server`
