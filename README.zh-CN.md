@@ -387,8 +387,6 @@ CODE_SIGNING_REQUIRED=NO
 
 因此当前自动 Release **默认不是 Developer ID 签名 / notarized 分发流程**。从 GitHub 下载的构建在 macOS 上可能触发 Gatekeeper 提示。
 
-如果将来用于正式公开分发，建议再增加 Developer ID 签名、公证与 stapling 流程。
-
 ## 项目结构
 
 ```text
