@@ -388,8 +388,6 @@ CODE_SIGNING_REQUIRED=NO
 
 Therefore, automatically generated releases are **not currently distributed through a Developer ID signed / notarized pipeline**. Builds downloaded from GitHub may trigger a macOS Gatekeeper warning.
 
-For formal public distribution, Developer ID signing, notarization, and stapling should be added to the release pipeline.
-
 ## Project Structure
 
 ```text
